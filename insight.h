@@ -19,6 +19,7 @@
 #ifndef INSIGHT_H
 #define INSIGHT_H
 
+extern void error(const char *, ...);
 extern void setup();
 
 #endif // INSIGHT_H

@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
 	ovrHmd hmd = ovrHmd_Create(0);
 	if(!hmd)
-		fprintf(stderr, "ERROR: %s\n", ovrHmd_GetLastError(NULL));
+		error("ERROR: %s\n", ovrHmd_GetLastError(NULL));
 	else {
 		printf("Initialized HMD: %s - %s\n",
 		       hmd->Manufacturer, hmd->ProductName);

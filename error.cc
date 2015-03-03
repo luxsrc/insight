@@ -18,23 +18,17 @@
 
 #include "insight.h"
 
-#include <cstdlib>
+#include <cstdarg>
 #include <cstdio>
-#include <cerrno>
-#include <cstring>
+#include <cstdlib>
 
-#include <OVR_CAPI.h>
-
-static void cleanup()
+void error(const char *format, ...)
 {
-	ovr_Shutdown();
-}
+	va_list args;
 
-void setup()
-{
-	if(atexit(cleanup))
-		error("ERROR: fail to register cleanup function [%s]\n",
-		      strerror(errno));
+	va_start(args, format);
+	vfprintf(stderr, format, args);
+	va_end(args);
 
-	ovr_Initialize();
+	exit(EXIT_FAILURE);
 }
