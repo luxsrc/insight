@@ -45,6 +45,13 @@ static inline void quat_to_matrix(const float *q, float *M)
 
 static void draw()
 {
+	float lpos[][4] = {{-8.0f, 2.0f,10.0f, 1.0f}, {0.0f,15.0f, 0.0f, 1.0f}};
+	float lcol[][4] = {{ 0.8f, 0.8f, 0.8f, 1.0f}, {0.4f, 0.3f, 0.3f, 1.0f}};
+	for(int i = 0; i < 2; ++i) {
+		glLightfv(GL_LIGHT0+i, GL_POSITION, lpos[i]);
+		glLightfv(GL_LIGHT0+i, GL_DIFFUSE,  lcol[i]);
+	}
+
 	glTranslatef(0.0f,1.0f,-1.0f);
 
 	glBegin(GL_LINE_STRIP);

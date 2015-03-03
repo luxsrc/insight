@@ -101,6 +101,15 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 		gltex[i].OGL.TexId = tex;
 	}
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_NORMALIZE);
+
+	glClearColor(0.5, 0.5, 0.5, 1);
+
 	print("Created OpenGL context with window size %d x %d and texture size %d x %d\n",
 	      wsz.w, wsz.h, tsz.w, tsz.h);
 	return ctx;
