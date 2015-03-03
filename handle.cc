@@ -25,6 +25,11 @@ bool handle(SDL_Event &e)
 	switch(e.type) {
 	case SDL_QUIT:
 		return 1;
+	case SDL_KEYUP:
+		switch(e.key.keysym.sym) {
+		case 27:
+			return 1;
+		}
 	}
 	return 0;
 }
