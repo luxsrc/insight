@@ -19,8 +19,13 @@
 #ifndef INSIGHT_H
 #define INSIGHT_H
 
+#include <SDL2/SDL.h>
+
+extern void setup();
+
 extern void error(const char *, ...);
 extern void print(const char *, ...);
-extern void setup();
+
+extern bool handle(SDL_Event &);
 
 #endif // INSIGHT_H

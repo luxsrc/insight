@@ -18,21 +18,13 @@
 
 #include "insight.h"
 
-#include <cstdio>
-#include <cstdlib>
-
-#include <OVR_CAPI.h>
 #include <SDL2/SDL.h>
 
-int main(int argc, char *argv[])
+bool handle(SDL_Event &e)
 {
-	setup();
-
-	for(bool done = 0; !done; ) {
-		SDL_Event event;
-		if(SDL_PollEvent(&event))
-			done = handle(event);
+	switch(e.type) {
+	case SDL_QUIT:
+		return 1;
 	}
-
-	return EXIT_SUCCESS;
+	return 0;
 }
