@@ -18,6 +18,31 @@
 
 #include "insight.h"
 
+/* Convert a quaternion to a rotation matrix, see the example by
+   John Tsiombikas <nuclear@member.fsf.org> */
+static inline void quat_to_matrix(const float *q, float *M)
+{
+	M[ 0] = 1.0f - 2.0f * (q[1] * q[1] + q[2] * q[2]);
+	M[ 1] =        2.0f * (q[0] * q[1] - q[3] * q[2]);
+	M[ 2] =        2.0f * (q[2] * q[0] + q[3] * q[1]);
+	M[ 3] = 0.0f;
+
+	M[ 4] =        2.0f * (q[0] * q[1] + q[3] * q[2]);
+	M[ 5] = 1.0f - 2.0f * (q[0] * q[0] + q[2] * q[2]);
+	M[ 6] =        2.0f * (q[1] * q[2] - q[3] * q[0]);
+	M[ 7] = 0.0f;
+
+	M[ 8] =        2.0f * (q[2] * q[0] - q[3] * q[1]);
+	M[ 9] =        2.0f * (q[1] * q[2] + q[3] * q[0]);
+	M[10] = 1.0f - 2.0f * (q[0] * q[0] + q[1] * q[1]);
+	M[11] = 0.0f;
+
+	M[12] = 0.0f;
+	M[13] = 0.0f;
+	M[14] = 0.0f;
+	M[15] = 1.0f;
+}
+
 void display()
 {
 	static unsigned long count = 0;
@@ -32,7 +57,30 @@ void display()
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// TODO: OpenGL rendering
+	for(int i = 0; i < 2; ++i) {
+		ovrEyeType eye = hmd->EyeRenderOrder[i];
+
+		glViewport(eye == ovrEye_Left ? 0 : hmd->Resolution.w / 2, 0,
+		           hmd->Resolution.w / 2, hmd->Resolution.h);
+
+		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
+		glMatrixMode(GL_PROJECTION);
+		glLoadTransposeMatrixf(proj.M[0]);
+
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		glTranslatef(rdesc[eye].HmdToEyeViewOffset.x,
+		             rdesc[eye].HmdToEyeViewOffset.y,
+		             rdesc[eye].HmdToEyeViewOffset.z);
+
+		float Rij[16];
+		quat_to_matrix(&pose[eye].Orientation.x, Rij);
+		glMultMatrixf(Rij);
+		glTranslatef(-pose[eye].Position.x, -pose[eye].Position.y, -pose[eye].Position.z);
+		glTranslatef(0, -ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
+
+		// TODO: OpenGL rendering
+	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	ovrHmd_EndFrame(hmd, pose, &gltex[0].Texture);
