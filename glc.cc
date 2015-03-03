@@ -17,40 +17,17 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-#include <cstdlib>
-#include <cerrno>
-#include <cstring>
 
-static ovrHmd         hmd = 0;
-static SDL_Window    *win = NULL;
-static SDL_GLContext  glc = 0;
-
-static void cleanup()
+SDL_GLContext mkglc(SDL_Window *win)
 {
-	if(glc)	rmglc(glc);
-	if(win) rmwin(win);
-	if(hmd) rmhmd(hmd);
-
-	SDL_Quit();
-	ovr_Shutdown();
+	SDL_GLContext ctx = SDL_GL_CreateContext(win);
+	if(ctx)
+		print("Created OpenGL context\n");
+	return ctx;
 }
 
-void setup()
+void rmglc(SDL_GLContext glc)
 {
-	if(atexit(cleanup))
-		error("Failed to register cleanup function [%s]\n",
-		      strerror(errno));
-
-	ovr_Initialize();
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-
-	if(!(hmd = mkhmd()))
-		error("Failed to initialize head mounted display [%s]\n",
-		      ovrHmd_GetLastError(NULL));
-
-	if(!(win = mkwin(hmd)))
-		error("Failed to create SDL window\n");
-
-	if(!(glc = mkglc(win)))
-		error("Failed to create OpenGL context\n");
+	SDL_GL_DeleteContext(glc);
+	print("Destroyed OpenGL context\n");
 }

@@ -17,7 +17,6 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>

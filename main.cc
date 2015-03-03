@@ -17,12 +17,7 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-
-#include <cstdio>
 #include <cstdlib>
-
-#include <OVR_CAPI.h>
-#include <SDL2/SDL.h>
 
 int main(int argc, char *argv[])
 {

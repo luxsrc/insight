@@ -17,40 +17,24 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-#include <cstdlib>
-#include <cerrno>
-#include <cstring>
 
-static ovrHmd         hmd = 0;
-static SDL_Window    *win = NULL;
-static SDL_GLContext  glc = 0;
-
-static void cleanup()
+SDL_Window *mkwin(ovrHmd hmd)
 {
-	if(glc)	rmglc(glc);
-	if(win) rmwin(win);
-	if(hmd) rmhmd(hmd);
-
-	SDL_Quit();
-	ovr_Shutdown();
+	SDL_Window *win = SDL_CreateWindow("insight",
+	                                   SDL_WINDOWPOS_UNDEFINED,
+	                                   SDL_WINDOWPOS_UNDEFINED,
+	                                   hmd->Resolution.w / 2,
+	                                   hmd->Resolution.h / 2,
+	                                   SDL_WINDOW_OPENGL);
+	if(win)
+		print("Created SDL window of size %d x %d\n",
+		      hmd->Resolution.w / 2,
+		      hmd->Resolution.h / 2);
+	return win;
 }
 
-void setup()
+void rmwin(SDL_Window *win)
 {
-	if(atexit(cleanup))
-		error("Failed to register cleanup function [%s]\n",
-		      strerror(errno));
-
-	ovr_Initialize();
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-
-	if(!(hmd = mkhmd()))
-		error("Failed to initialize head mounted display [%s]\n",
-		      ovrHmd_GetLastError(NULL));
-
-	if(!(win = mkwin(hmd)))
-		error("Failed to create SDL window\n");
-
-	if(!(glc = mkglc(win)))
-		error("Failed to create OpenGL context\n");
+	SDL_DestroyWindow(win);
+	print("Destroyed SDL window\n");
 }

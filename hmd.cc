@@ -17,40 +17,23 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-#include <cstdlib>
-#include <cerrno>
-#include <cstring>
 
-static ovrHmd         hmd = 0;
-static SDL_Window    *win = NULL;
-static SDL_GLContext  glc = 0;
-
-static void cleanup()
+ovrHmd mkhmd()
 {
-	if(glc)	rmglc(glc);
-	if(win) rmwin(win);
-	if(hmd) rmhmd(hmd);
-
-	SDL_Quit();
-	ovr_Shutdown();
+	ovrHmd hmd;
+	if((hmd = ovrHmd_Create(0)))
+		print("Initialized head mounted display: %s - %s: %s\n",
+		      hmd->Manufacturer, hmd->ProductName,
+		      hmd->HmdCaps & ovrHmdCap_ExtendDesktop ?
+		      "extended display" : "direct HMD");
+	else if((hmd = ovrHmd_CreateDebug(ovrHmd_DK2)))
+		print("Initialized head mounted display: %s - %s: virtual\n",
+		      hmd->Manufacturer, hmd->ProductName);
+	return hmd;
 }
 
-void setup()
+void rmhmd(ovrHmd hmd)
 {
-	if(atexit(cleanup))
-		error("Failed to register cleanup function [%s]\n",
-		      strerror(errno));
-
-	ovr_Initialize();
-	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
-
-	if(!(hmd = mkhmd()))
-		error("Failed to initialize head mounted display [%s]\n",
-		      ovrHmd_GetLastError(NULL));
-
-	if(!(win = mkwin(hmd)))
-		error("Failed to create SDL window\n");
-
-	if(!(glc = mkglc(win)))
-		error("Failed to create OpenGL context\n");
+	ovrHmd_Destroy(hmd);
+	print("Finalized head mounted display\n");
 }

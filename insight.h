@@ -19,7 +19,15 @@
 #ifndef INSIGHT_H
 #define INSIGHT_H
 
+#include <OVR_CAPI.h>
 #include <SDL2/SDL.h>
+
+extern ovrHmd        mkhmd();
+extern void          rmhmd(ovrHmd);
+extern SDL_Window   *mkwin(ovrHmd);
+extern void          rmwin(SDL_Window *);
+extern SDL_GLContext mkglc(SDL_Window *);
+extern void          rmglc(SDL_GLContext);
 
 extern void setup();
 

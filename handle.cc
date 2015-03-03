@@ -18,8 +18,6 @@
 
 #include "insight.h"
 
-#include <SDL2/SDL.h>
-
 bool handle(SDL_Event &e)
 {
 	switch(e.type) {
