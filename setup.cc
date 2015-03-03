@@ -60,31 +60,31 @@ void setup()
 	ovr_Initialize();
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
-	hmd = ovrHmd_Create(0);
-	if(hmd)
+	if((hmd = ovrHmd_Create(0)))
 		print("Initialized head mounted display: %s - %s: %s\n",
 		      hmd->Manufacturer, hmd->ProductName,
 		      hmd->HmdCaps & ovrHmdCap_ExtendDesktop ?
 		      "extended display" : "direct HMD");
+	else if((hmd = ovrHmd_CreateDebug(ovrHmd_DK2)))
+		print("Initialized head mounted display: %s - %s: virtual\n",
+		      hmd->Manufacturer, hmd->ProductName);
 	else
 		error("Failed to initialize head mounted display [%s]\n",
 		      ovrHmd_GetLastError(NULL));
 
-	win = SDL_CreateWindow("insight",
-	                       SDL_WINDOWPOS_UNDEFINED,
-	                       SDL_WINDOWPOS_UNDEFINED,
-	                       hmd->Resolution.w / 2,
-	                       hmd->Resolution.h / 2,
-	                       SDL_WINDOW_OPENGL);
-	if(win)
+	if((win = SDL_CreateWindow("insight",
+	                           SDL_WINDOWPOS_UNDEFINED,
+	                           SDL_WINDOWPOS_UNDEFINED,
+	                           hmd->Resolution.w / 2,
+	                           hmd->Resolution.h / 2,
+	                           SDL_WINDOW_OPENGL)))
 		print("Created SDL window of size %d x %d\n",
 		      hmd->Resolution.w / 2,
 		      hmd->Resolution.h / 2);
 	else
 		error("Failed to create SDL window\n");
 
-	ctx = SDL_GL_CreateContext(win);
-	if(ctx)
+	if((ctx = SDL_GL_CreateContext(win)))
 		print("Created OpenGL context\n");
 	else
 		error("Failed to create OpenGL context\n");
