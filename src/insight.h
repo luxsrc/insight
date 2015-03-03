@@ -19,8 +19,16 @@
 #ifndef INSIGHT_H
 #define INSIGHT_H
 
-#include <OVR_CAPI.h>
+#include <cstddef> // must include before OVR_CAPI_GL.h to avoid C++ error
+
 #include <SDL2/SDL.h>
+#include <OVR_CAPI.h>
+#include <OVR_CAPI_GL.h>
+
+extern ovrHmd           hmd;
+extern unsigned         fbo;
+extern ovrEyeRenderDesc rdesc[2];
+extern ovrGLTexture     gltex[];
 
 extern ovrHmd        mkhmd();
 extern void          rmhmd(ovrHmd);

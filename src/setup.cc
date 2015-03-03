@@ -21,7 +21,8 @@
 #include <cerrno>
 #include <cstring>
 
-static ovrHmd         hmd = 0;
+ovrHmd hmd = 0;
+
 static SDL_Window    *win = NULL;
 static SDL_GLContext  glc = 0;
 

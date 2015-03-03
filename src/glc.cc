@@ -16,10 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <GL/glew.h> // must be included before gl.h in OVR_CAPI_GL.h
 #include "insight.h"
-#include <GL/glew.h>
-#include <cstddef> // must include before OVR_CAPI_GL.h to avoid C++ error
-#include <OVR_CAPI_GL.h>
+
+unsigned         fbo;
+ovrEyeRenderDesc rdesc[2];
+ovrGLTexture     gltex[2];
 
 static inline unsigned clp2(unsigned x)
 {
@@ -46,7 +48,7 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	glewInit();
 
 	// Generate framebuffer object name
-	unsigned fbo;
+	// unsigned fbo;
 	glGenFramebuffers(1, &fbo);
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -79,7 +81,7 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	config.OGL.Header.BackBufferSize.h = hmd->Resolution.h;
 	config.OGL.Header.Multisample = 1;
 
-	ovrEyeRenderDesc rdesc[2]; // an output, used in moving cameras/eyes
+	// Fill out rdesc as an output, will be used in moving cameras/eyes
 	if(!ovrHmd_ConfigureRendering(hmd, &config.Config,
 	                              ovrDistortionCap_Chromatic |
 	                              ovrDistortionCap_TimeWarp  |
@@ -87,7 +89,7 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	                              hmd->DefaultEyeFov, rdesc))
 		error("Failed to configure distortion renderer\n");
 
-	ovrGLTexture gltex[2]; // an output, used in ovrHmd_EndFrame()
+	// Fill out gltex as an output, will be used in ovrHmd_EndFrame()
 	for(int i = 0; i < 2; ++i) {
 		gltex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
 		gltex[i].OGL.Header.TextureSize.w = tsz.w;

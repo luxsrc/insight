@@ -22,5 +22,18 @@ void display()
 {
 	static unsigned long count = 0;
 	printf("%lu\n", count++);
+
+	ovrVector3f offset[2] = {rdesc[0].HmdToEyeViewOffset,
+	                         rdesc[1].HmdToEyeViewOffset};
+	ovrPosef pose[2];
+	ovrHmd_GetEyePoses(hmd, 0, offset, pose, NULL);
+
+	ovrHmd_BeginFrame(hmd, 0);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	// TODO: OpenGL rendering
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	ovrHmd_EndFrame(hmd, pose, &gltex[0].Texture);
 }
