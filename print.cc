@@ -18,23 +18,14 @@
 
 #include "insight.h"
 
+#include <cstdarg>
 #include <cstdio>
-#include <cstdlib>
 
-#include <OVR_CAPI.h>
-
-int main(int argc, char *argv[])
+void print(const char *format, ...)
 {
-	setup();
+	va_list args;
 
-	ovrHmd hmd = ovrHmd_Create(0);
-	if(!hmd)
-		error("ERROR: %s\n", ovrHmd_GetLastError(NULL));
-	else {
-		print("Initialized HMD: %s - %s\n",
-		      hmd->Manufacturer, hmd->ProductName);
-		ovrHmd_Destroy(hmd);
-	}
-
-	return EXIT_SUCCESS;
+	va_start(args, format);
+	vprintf(format, args);
+	va_end(args);
 }

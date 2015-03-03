@@ -20,6 +20,7 @@
 #define INSIGHT_H
 
 extern void error(const char *, ...);
+extern void print(const char *, ...);
 extern void setup();
 
 #endif // INSIGHT_H
