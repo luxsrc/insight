@@ -24,9 +24,11 @@
 #include <cstring>
 
 #include <OVR_CAPI.h>
+#include <SDL2/SDL.h>
 
 static void cleanup()
 {
+	SDL_Quit();
 	ovr_Shutdown();
 }
 
@@ -37,4 +39,5 @@ void setup()
 		      strerror(errno));
 
 	ovr_Initialize();
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 }
