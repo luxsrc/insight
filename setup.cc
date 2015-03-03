@@ -26,8 +26,17 @@
 #include <OVR_CAPI.h>
 #include <SDL2/SDL.h>
 
+static SDL_Window    *win = NULL;
+static SDL_GLContext  ctx = 0;
+
 static void cleanup()
 {
+	if(ctx)
+		SDL_GL_DeleteContext(ctx);
+
+	if(win)
+		SDL_DestroyWindow(win);
+
 	SDL_Quit();
 	ovr_Shutdown();
 }
@@ -35,9 +44,21 @@ static void cleanup()
 void setup()
 {
 	if(atexit(cleanup))
-		error("ERROR: fail to register cleanup function [%s]\n",
+		error("ERROR: failed to register cleanup function [%s]\n",
 		      strerror(errno));
 
 	ovr_Initialize();
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
+
+	win = SDL_CreateWindow("insight",
+	                       SDL_WINDOWPOS_UNDEFINED,
+	                       SDL_WINDOWPOS_UNDEFINED,
+	                       960, 540,
+	                       SDL_WINDOW_OPENGL);
+	if(!win)
+		error("ERROR: failed to create window\n");
+
+	ctx = SDL_GL_CreateContext(win);
+	if(!ctx)
+		error("ERROR: failed to create OpenGL context\n");
 }
