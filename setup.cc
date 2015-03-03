@@ -62,8 +62,10 @@ void setup()
 
 	hmd = ovrHmd_Create(0);
 	if(hmd)
-		print("Initialized head mounted display: %s - %s\n",
-		      hmd->Manufacturer, hmd->ProductName);
+		print("Initialized head mounted display: %s - %s: %s\n",
+		      hmd->Manufacturer, hmd->ProductName,
+		      hmd->HmdCaps & ovrHmdCap_ExtendDesktop ?
+		      "extended display" : "direct HMD");
 	else
 		error("Failed to initialize head mounted display [%s]\n",
 		      ovrHmd_GetLastError(NULL));
