@@ -16,25 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "insight.h"
+#ifndef INSIGHT_H
+#define INSIGHT_H
 
-#include <cstdio>
-#include <cstdlib>
+extern void setup();
 
-#include <OVR_CAPI.h>
-
-int main(int argc, char *argv[])
-{
-	setup();
-
-	ovrHmd hmd = ovrHmd_Create(0);
-	if(!hmd)
-		fprintf(stderr, "ERROR: %s\n", ovrHmd_GetLastError(NULL));
-	else {
-		printf("Initialized HMD: %s - %s\n",
-		       hmd->Manufacturer, hmd->ProductName);
-		ovrHmd_Destroy(hmd);
-	}
-
-	return EXIT_SUCCESS;
-}
+#endif // INSIGHT_H

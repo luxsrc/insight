@@ -18,23 +18,26 @@
 
 #include "insight.h"
 
-#include <cstdio>
 #include <cstdlib>
+#include <cstdio>
+#include <cerrno>
+#include <cstring>
 
 #include <OVR_CAPI.h>
 
-int main(int argc, char *argv[])
+static void cleanup()
 {
-	setup();
+	ovr_Shutdown();
+}
 
-	ovrHmd hmd = ovrHmd_Create(0);
-	if(!hmd)
-		fprintf(stderr, "ERROR: %s\n", ovrHmd_GetLastError(NULL));
-	else {
-		printf("Initialized HMD: %s - %s\n",
-		       hmd->Manufacturer, hmd->ProductName);
-		ovrHmd_Destroy(hmd);
+void setup()
+{
+	if(atexit(cleanup)) {
+		fprintf(stderr,
+		        "ERROR: fail to register cleanup function [%s]\n",
+		        strerror(errno));
+		exit(EXIT_FAILURE);
 	}
 
-	return EXIT_SUCCESS;
+	ovr_Initialize();
 }
