@@ -17,19 +17,10 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-#include <cstdlib>
 
-int main(int argc, char *argv[])
+void display()
 {
-	setup();
-
-	for(bool done = 0; !done; ) {
-		SDL_Event event;
-		if(SDL_PollEvent(&event))
-			done = handle(event);
-		else
-			display();
-	}
-
-	return EXIT_SUCCESS;
+	static unsigned long count = 0;
+	printf("%lu\n", count++);
+	// TODO: OpenGL rendering
 }

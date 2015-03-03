@@ -35,5 +35,6 @@ extern void error(const char *, ...);
 extern void print(const char *, ...);
 
 extern bool handle(SDL_Event &);
+extern void display();
 
 #endif // INSIGHT_H
