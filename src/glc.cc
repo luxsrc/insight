@@ -72,6 +72,21 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	else
 		error("Failed to complete framebuffer\n");
 
+	union ovrGLConfig config;
+	memset(&config, 0, sizeof(config));
+	config.OGL.Header.API = ovrRenderAPI_OpenGL;
+	config.OGL.Header.BackBufferSize.w = hmd->Resolution.w;
+	config.OGL.Header.BackBufferSize.h = hmd->Resolution.h;
+	config.OGL.Header.Multisample = 1;
+
+	ovrEyeRenderDesc rdesc[2]; // an output, used in moving cameras/eyes
+	if(!ovrHmd_ConfigureRendering(hmd, &config.Config,
+	                              ovrDistortionCap_Chromatic |
+	                              ovrDistortionCap_TimeWarp  |
+	                              ovrDistortionCap_Overdrive,
+	                              hmd->DefaultEyeFov, rdesc))
+		error("Failed to configure distortion renderer\n");
+
 	print("Created OpenGL context with window size %d x %d and texture size %d x %d\n",
 	      wsz.w, wsz.h, tsz.w, tsz.h);
 	return ctx;
