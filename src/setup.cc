@@ -51,6 +51,6 @@ void setup()
 	if(!(win = mkwin(hmd)))
 		error("Failed to create SDL window\n");
 
-	if(!(glc = mkglc(win)))
+	if(!(glc = mkglc(hmd, win)))
 		error("Failed to create OpenGL context\n");
 }

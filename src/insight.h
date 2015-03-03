@@ -26,7 +26,7 @@ extern ovrHmd        mkhmd();
 extern void          rmhmd(ovrHmd);
 extern SDL_Window   *mkwin(ovrHmd);
 extern void          rmwin(SDL_Window *);
-extern SDL_GLContext mkglc(SDL_Window *);
+extern SDL_GLContext mkglc(ovrHmd, SDL_Window *);
 extern void          rmglc(SDL_GLContext);
 
 extern void setup();
