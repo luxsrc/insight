@@ -21,15 +21,18 @@
 SDL_Window *mkwin(ovrHmd hmd)
 {
 	SDL_Window *win = SDL_CreateWindow("insight",
-	                                   SDL_WINDOWPOS_UNDEFINED,
-	                                   SDL_WINDOWPOS_UNDEFINED,
-	                                   hmd->Resolution.w / 2,
-	                                   hmd->Resolution.h / 2,
+	                                   hmd->WindowsPos.x,
+	                                   hmd->WindowsPos.y,
+	                                   hmd->Resolution.w,
+	                                   hmd->Resolution.h,
 	                                   SDL_WINDOW_OPENGL);
-	if(win)
-		print("Created SDL window of size %d x %d\n",
-		      hmd->Resolution.w / 2,
-		      hmd->Resolution.h / 2);
+	if(!win)
+		return win; // NULL with correct type
+
+	SDL_SetWindowFullscreen(win, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	print("Created SDL window of size %d x %d\n",
+	      hmd->Resolution.w,
+	      hmd->Resolution.h);
 	return win;
 }
 
