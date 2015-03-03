@@ -87,6 +87,18 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	                              hmd->DefaultEyeFov, rdesc))
 		error("Failed to configure distortion renderer\n");
 
+	ovrGLTexture gltex[2]; // an output, used in ovrHmd_EndFrame()
+	for(int i = 0; i < 2; ++i) {
+		gltex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
+		gltex[i].OGL.Header.TextureSize.w = tsz.w;
+		gltex[i].OGL.Header.TextureSize.h = tsz.h;
+		gltex[i].OGL.Header.RenderViewport.Pos.x = !i ? 0 : wsz.w / 2.0;
+		gltex[i].OGL.Header.RenderViewport.Pos.y = 0;
+		gltex[i].OGL.Header.RenderViewport.Size.w = wsz.w / 2.0;
+		gltex[i].OGL.Header.RenderViewport.Size.h = wsz.h;
+		gltex[i].OGL.TexId = tex;
+	}
+
 	print("Created OpenGL context with window size %d x %d and texture size %d x %d\n",
 	      wsz.w, wsz.h, tsz.w, tsz.h);
 	return ctx;
