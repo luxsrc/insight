@@ -32,14 +32,20 @@ static SDL_GLContext  ctx = 0;
 
 static void cleanup()
 {
-	if(ctx)
+	if(ctx) {
 		SDL_GL_DeleteContext(ctx);
+		print("Destroyed OpenGL context\n");
+	}
 
-	if(win)
+	if(win) {
 		SDL_DestroyWindow(win);
+		print("Destroyed SDL window\n");
+	}
 
-	if(hmd)
+	if(hmd) {
 		ovrHmd_Destroy(hmd);
+		print("Finalized head mounted display\n");
+	}
 
 	SDL_Quit();
 	ovr_Shutdown();
@@ -48,7 +54,7 @@ static void cleanup()
 void setup()
 {
 	if(atexit(cleanup))
-		error("ERROR: failed to register cleanup function [%s]\n",
+		error("Failed to register cleanup function [%s]\n",
 		      strerror(errno));
 
 	ovr_Initialize();
@@ -56,7 +62,7 @@ void setup()
 
 	hmd = ovrHmd_Create(0);
 	if(hmd)
-		print("Initialized HMD: %s - %s\n",
+		print("Initialized head mounted display: %s - %s\n",
 		      hmd->Manufacturer, hmd->ProductName);
 	else
 		error("Failed to initialize head mounted display [%s]\n",
@@ -69,11 +75,11 @@ void setup()
 	                       hmd->Resolution.h / 2,
 	                       SDL_WINDOW_OPENGL);
 	if(win)
-		print("Created window of size %dx%d\n",
+		print("Created SDL window of size %d x %d\n",
 		      hmd->Resolution.w / 2,
 		      hmd->Resolution.h / 2);
 	else
-		error("Failed to create window\n");
+		error("Failed to create SDL window\n");
 
 	ctx = SDL_GL_CreateContext(win);
 	if(ctx)
