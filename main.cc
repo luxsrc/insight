@@ -27,14 +27,5 @@ int main(int argc, char *argv[])
 {
 	setup();
 
-	ovrHmd hmd = ovrHmd_Create(0);
-	if(!hmd)
-		error("ERROR: %s\n", ovrHmd_GetLastError(NULL));
-	else {
-		print("Initialized HMD: %s - %s\n",
-		      hmd->Manufacturer, hmd->ProductName);
-		ovrHmd_Destroy(hmd);
-	}
-
 	return EXIT_SUCCESS;
 }

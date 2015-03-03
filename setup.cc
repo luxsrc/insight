@@ -26,6 +26,7 @@
 #include <OVR_CAPI.h>
 #include <SDL2/SDL.h>
 
+static ovrHmd         hmd = 0;
 static SDL_Window    *win = NULL;
 static SDL_GLContext  ctx = 0;
 
@@ -36,6 +37,9 @@ static void cleanup()
 
 	if(win)
 		SDL_DestroyWindow(win);
+
+	if(hmd)
+		ovrHmd_Destroy(hmd);
 
 	SDL_Quit();
 	ovr_Shutdown();
@@ -50,15 +54,30 @@ void setup()
 	ovr_Initialize();
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
+	hmd = ovrHmd_Create(0);
+	if(hmd)
+		print("Initialized HMD: %s - %s\n",
+		      hmd->Manufacturer, hmd->ProductName);
+	else
+		error("Failed to initialize head mounted display [%s]\n",
+		      ovrHmd_GetLastError(NULL));
+
 	win = SDL_CreateWindow("insight",
 	                       SDL_WINDOWPOS_UNDEFINED,
 	                       SDL_WINDOWPOS_UNDEFINED,
-	                       960, 540,
+	                       hmd->Resolution.w / 2,
+	                       hmd->Resolution.h / 2,
 	                       SDL_WINDOW_OPENGL);
-	if(!win)
-		error("ERROR: failed to create window\n");
+	if(win)
+		print("Created window of size %dx%d\n",
+		      hmd->Resolution.w / 2,
+		      hmd->Resolution.h / 2);
+	else
+		error("Failed to create window\n");
 
 	ctx = SDL_GL_CreateContext(win);
-	if(!ctx)
-		error("ERROR: failed to create OpenGL context\n");
+	if(ctx)
+		print("Created OpenGL context\n");
+	else
+		error("Failed to create OpenGL context\n");
 }
