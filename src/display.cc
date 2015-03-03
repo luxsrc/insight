@@ -43,6 +43,36 @@ static inline void quat_to_matrix(const float *q, float *M)
 	M[15] = 1.0f;
 }
 
+static void draw()
+{
+	glTranslatef(0.0f,1.0f,-1.0f);
+
+	glBegin(GL_LINE_STRIP);
+		glVertex3f( 0.5f, 0.5f, 0.5f);
+		glVertex3f(-0.5f, 0.5f, 0.5f);
+		glVertex3f(-0.5f,-0.5f, 0.5f);
+		glVertex3f(-0.5f,-0.5f,-0.5f);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+		glVertex3f(-0.5f, 0.5f, 0.5f);
+		glVertex3f(-0.5f, 0.5f,-0.5f);
+		glVertex3f(-0.5f,-0.5f,-0.5f);
+		glVertex3f( 0.5f,-0.5f,-0.5f);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+		glVertex3f(-0.5f, 0.5f,-0.5f);
+		glVertex3f( 0.5f, 0.5f,-0.5f);
+		glVertex3f( 0.5f,-0.5f,-0.5f);
+		glVertex3f( 0.5f,-0.5f, 0.5f);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+		glVertex3f( 0.5f, 0.5f,-0.5f);
+		glVertex3f( 0.5f, 0.5f, 0.5f);
+		glVertex3f( 0.5f,-0.5f, 0.5f);
+		glVertex3f(-0.5f,-0.5f, 0.5f);
+	glEnd();
+}
+
 void display()
 {
 	static unsigned long count = 0;
@@ -79,7 +109,7 @@ void display()
 		glTranslatef(-pose[eye].Position.x, -pose[eye].Position.y, -pose[eye].Position.z);
 		glTranslatef(0, -ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
 
-		// TODO: OpenGL rendering
+		draw();
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
