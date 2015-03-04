@@ -17,19 +17,16 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-#include <cstdlib>
 
-int main(int argc, char *argv[])
+void glasses()
 {
-	ovrHmd hmd = setup();
+	glTranslatef(0.25f, 0.25f,-1.0f);
+	glScalef(0.1f, 0.1f, 0.0f);
 
-	for(bool done = 0; !done; ) {
-		SDL_Event event;
-		if(SDL_PollEvent(&event))
-			done = handle(event);
-		else
-			display(hmd, objects, glasses);
-	}
-
-	return EXIT_SUCCESS;
+	glBegin(GL_LINE_LOOP);
+		glVertex3f( 1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f, 1.0f, 0.0f);
+		glVertex3f(-1.0f,-1.0f, 0.0f);
+		glVertex3f( 1.0f,-1.0f, 0.0f);
+	glEnd();
 }

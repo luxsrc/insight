@@ -18,7 +18,7 @@
 
 #include "insight.h"
 
-void draw()
+void objects()
 {
 	float pos[][4] = {{-8.0f, 2.0f,10.0f, 1.0f}, {0.0f,15.0f, 0.0f, 1.0f}};
 	float col[][4] = {{ 0.8f, 0.8f, 0.8f, 1.0f}, {0.4f, 0.3f, 0.3f, 1.0f}};

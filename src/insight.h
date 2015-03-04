@@ -37,8 +37,9 @@ extern void print(const char *, ...);
 
 extern ovrHmd setup();
 extern bool   handle(SDL_Event &);
-extern void   display(ovrHmd, void (*)());
+extern void   display(ovrHmd, void (*)(), void (*)());
 
-extern void   draw();
+extern void objects();
+extern void glasses();
 
 #endif // INSIGHT_H

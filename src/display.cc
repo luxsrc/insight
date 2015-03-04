@@ -43,7 +43,7 @@ static inline void quat_to_matrix(const float *q, float *M)
 	M[15] = 1.0f;
 }
 
-void display(ovrHmd hmd, void (*draw)())
+void display(ovrHmd hmd, void (*fixed)(), void (*mounted)())
 {
 	static unsigned long count = 0;
 	printf("%lu\n", count++);
@@ -73,13 +73,19 @@ void display(ovrHmd hmd, void (*draw)())
 		             global::rdesc[eye].HmdToEyeViewOffset.y,
 		             global::rdesc[eye].HmdToEyeViewOffset.z);
 
+		glPushMatrix();
+		mounted();
+		glPopMatrix();
+
 		float Rij[16];
 		quat_to_matrix(&pose[eye].Orientation.x, Rij);
 		glMultMatrixf(Rij);
 		glTranslatef(-pose[eye].Position.x, -pose[eye].Position.y, -pose[eye].Position.z);
 		glTranslatef(0, -ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
 
-		draw();
+		glPushMatrix();
+		fixed();
+		glPopMatrix();
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
