@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 		if(SDL_PollEvent(&event))
 			done = handle(event);
 		else
-			display(hmd);
+			display(hmd, draw);
 	}
 
 	return EXIT_SUCCESS;

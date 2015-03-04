@@ -32,12 +32,13 @@ namespace global {
 	extern ovrGLTexture     gltex[];
 }
 
-extern ovrHmd setup();
-
 extern void error(const char *, ...);
 extern void print(const char *, ...);
 
-extern bool handle(SDL_Event &);
-extern void display(ovrHmd);
+extern ovrHmd setup();
+extern bool   handle(SDL_Event &);
+extern void   display(ovrHmd, void (*)());
+
+extern void   draw();
 
 #endif // INSIGHT_H
