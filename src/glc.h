@@ -16,8 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef INSIGHT_H
-#define INSIGHT_H
+#ifndef GLC_H
+#define GLC_H
 
 #include <cstddef> // must include before OVR_CAPI_GL.h to avoid C++ error
 
@@ -25,17 +25,7 @@
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
 
-extern unsigned         fbo;
-extern ovrSizei         bsz;
-extern ovrEyeRenderDesc rdesc[];
-extern ovrGLTexture     gltex[];
+extern SDL_GLContext mkglc(ovrHmd, SDL_Window *);
+extern void          rmglc(SDL_GLContext);
 
-extern ovrHmd setup();
-
-extern void error(const char *, ...);
-extern void print(const char *, ...);
-
-extern bool handle(SDL_Event &);
-extern void display(ovrHmd);
-
-#endif // INSIGHT_H
+#endif // GLC_H

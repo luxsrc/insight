@@ -17,6 +17,7 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
+#include "win.h"
 
 SDL_Window *mkwin(ovrHmd hmd)
 {

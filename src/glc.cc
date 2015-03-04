@@ -18,6 +18,7 @@
 
 #include <GL/glew.h> // must be included before gl.h in OVR_CAPI_GL.h
 #include "insight.h"
+#include "hmd.h"
 
 unsigned fbo;
 ovrSizei bsz;

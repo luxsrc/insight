@@ -17,6 +17,9 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
+#include "hmd.h"
+#include "win.h"
+#include "glc.h"
 #include <cstdlib>
 #include <cerrno>
 #include <cstring>
