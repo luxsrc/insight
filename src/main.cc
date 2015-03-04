@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 		else
 			display(hmd,
 			        global::fixed   ? objects : NULL,
-			        global::mounted ? glasses : NULL);
+			        global::mounted ? screen  : NULL);
 	}
 
 	return EXIT_SUCCESS;

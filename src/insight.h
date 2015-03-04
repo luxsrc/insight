@@ -42,6 +42,6 @@ extern bool   handle(SDL_Event &);
 extern void   display(ovrHmd, void (*)(), void (*)());
 
 extern void objects();
-extern void glasses();
+extern void screen();
 
 #endif // INSIGHT_H

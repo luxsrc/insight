@@ -18,12 +18,16 @@
 
 #include "insight.h"
 
-void glasses()
+void screen()
 {
+	float grey[] = {0.5f, 0.5f, 0.5f, 1.0f};
+
 	glTranslatef(0.125f, 0.125f,-0.5f);
 	glScalef(0.05f, 0.05f, 0.05f);
 
-	glBegin(GL_LINE_LOOP);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
+	glBegin(GL_QUADS);
+		glNormal3f( 0.0f, 0.0f, 1.0f);
 		glVertex3f( 1.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f, 1.0f, 0.0f);
 		glVertex3f(-1.0f,-1.0f, 0.0f);
