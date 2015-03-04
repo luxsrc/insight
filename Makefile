@@ -3,7 +3,7 @@ all: insight
 insight: src/*.cc Makefile
 	@mkdir -p bin
 	@echo -n 'Compiling $@... '
-	@g++ src/*.cc -o bin/insight \
+	@g++ src/*.cc -o bin/insight -ljpeg \
 		-I/usr/local/OculusSDK/LibOVR/Src \
 		-L/usr/local/OculusSDK/LibOVR/Lib/Mac/Release -lovr \
 		-I/opt/local/include \
