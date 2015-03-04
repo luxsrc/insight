@@ -53,4 +53,25 @@ void scene(unsigned vol)
 		glVertex3f( 0.5f,-0.5f, 0.5f);
 		glVertex3f(-0.5f,-0.5f, 0.5f);
 	glEnd();
+
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.125f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_TEXTURE_3D);
+	glBindTexture(GL_TEXTURE_3D, vol);
+	for(int i = 0; i < 256; ++i) {
+		float f =  i        / 255.0;
+		float g = (i-127.5) / 127.5;
+		glBegin(GL_QUADS);
+		glTexCoord3f(1, 0, f); glVertex3f( 1, 1, g);
+		glTexCoord3f(0, 0, f); glVertex3f(-1, 1, g);
+		glTexCoord3f(0, 1, f); glVertex3f(-1,-1, g);
+		glTexCoord3f(1, 1, f); glVertex3f( 1,-1, g);
+		glEnd();
+	}
+	glBindTexture(GL_TEXTURE_3D, 0);
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_BLEND);
+	glDisable(GL_TEXTURE_3D);
 }
