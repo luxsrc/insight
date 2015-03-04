@@ -20,6 +20,7 @@
 #include "insight.h"
 
 unsigned         fbo;
+ovrSizei         bsz;
 ovrEyeRenderDesc rdesc[2];
 ovrGLTexture     gltex[2];
 
@@ -42,8 +43,7 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 
 	ovrSizei lsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Left,  hmd->DefaultEyeFov[0], 1.0);
 	ovrSizei rsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Right, hmd->DefaultEyeFov[1], 1.0);
-	ovrSizei wsz = {lsz.w + rsz.w, lsz.h > rsz.h ? lsz.h : rsz.h};
-	ovrSizei tsz = {clp2(wsz.w), clp2(wsz.h)};
+	ovrSizei tsz = {clp2(bsz.w = lsz.w + rsz.w), clp2(bsz.h = lsz.h > rsz.h ? lsz.h : rsz.h)};
 
 	glewInit();
 
@@ -94,10 +94,10 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 		gltex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
 		gltex[i].OGL.Header.TextureSize.w = tsz.w;
 		gltex[i].OGL.Header.TextureSize.h = tsz.h;
-		gltex[i].OGL.Header.RenderViewport.Pos.x = !i ? 0 : wsz.w / 2.0;
+		gltex[i].OGL.Header.RenderViewport.Pos.x = !i ? 0 : bsz.w / 2.0;
 		gltex[i].OGL.Header.RenderViewport.Pos.y = 0;
-		gltex[i].OGL.Header.RenderViewport.Size.w = wsz.w / 2.0;
-		gltex[i].OGL.Header.RenderViewport.Size.h = wsz.h;
+		gltex[i].OGL.Header.RenderViewport.Size.w = bsz.w / 2.0;
+		gltex[i].OGL.Header.RenderViewport.Size.h = bsz.h;
 		gltex[i].OGL.TexId = tex;
 	}
 
@@ -108,10 +108,10 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	glEnable(GL_LIGHT1);
 	glEnable(GL_NORMALIZE);
 
-	glClearColor(0.5, 0.5, 0.5, 1);
+	glClearColor(0.1, 0.1, 0.1, 1);
 
 	print("Created OpenGL context with window size %d x %d and texture size %d x %d\n",
-	      wsz.w, wsz.h, tsz.w, tsz.h);
+	      bsz.w, bsz.h, tsz.w, tsz.h);
 	return ctx;
 }
 

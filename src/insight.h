@@ -27,6 +27,7 @@
 
 extern ovrHmd           hmd;
 extern unsigned         fbo;
+extern ovrSizei         bsz;
 extern ovrEyeRenderDesc rdesc[2];
 extern ovrGLTexture     gltex[];
 

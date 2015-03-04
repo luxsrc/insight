@@ -97,8 +97,7 @@ void display()
 	for(int i = 0; i < 2; ++i) {
 		ovrEyeType eye = hmd->EyeRenderOrder[i];
 
-		glViewport(eye == ovrEye_Left ? 0 : hmd->Resolution.w / 2, 0,
-		           hmd->Resolution.w / 2, hmd->Resolution.h);
+		glViewport(eye == ovrEye_Left ? 0 : bsz.w / 2, 0, bsz.w / 2, bsz.h);
 
 		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
 		glMatrixMode(GL_PROJECTION);
