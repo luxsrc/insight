@@ -52,7 +52,6 @@ unsigned mkimg(const char *name)
 
 	unsigned img;
 	glGenTextures(1, &img);
-	printf(">>> %u\n", img);
 	glBindTexture(GL_TEXTURE_2D, img);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -63,7 +62,6 @@ unsigned mkimg(const char *name)
 
 	return img;
 }
-
 
 void rmimg(unsigned img)
 {
