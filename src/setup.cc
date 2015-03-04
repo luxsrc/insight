@@ -21,8 +21,10 @@
 #include <cerrno>
 #include <cstring>
 
-ovrHmd hmd = 0;
+ovrEyeRenderDesc rdesc[2];
+ovrGLTexture     gltex[2];
 
+static ovrHmd         hmd = 0;
 static SDL_Window    *win = NULL;
 static SDL_GLContext  glc = 0;
 
@@ -36,7 +38,7 @@ static void cleanup()
 	ovr_Shutdown();
 }
 
-void setup()
+ovrHmd setup()
 {
 	if(atexit(cleanup))
 		error("Failed to register cleanup function [%s]\n",
@@ -74,4 +76,6 @@ void setup()
 	                                  ovrTrackingCap_Position    |
 	                             ovrTrackingCap_MagYawCorrection, 0))
 		error("Failed to configure tracking\n");
+
+	return hmd;
 }

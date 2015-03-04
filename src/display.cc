@@ -80,7 +80,7 @@ static void draw()
 	glEnd();
 }
 
-void display()
+void display(ovrHmd hmd)
 {
 	static unsigned long count = 0;
 	printf("%lu\n", count++);

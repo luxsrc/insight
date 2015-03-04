@@ -21,14 +21,14 @@
 
 int main(int argc, char *argv[])
 {
-	setup();
+	ovrHmd hmd = setup();
 
 	for(bool done = 0; !done; ) {
 		SDL_Event event;
 		if(SDL_PollEvent(&event))
 			done = handle(event);
 		else
-			display();
+			display(hmd);
 	}
 
 	return EXIT_SUCCESS;

@@ -29,11 +29,9 @@ ovrHmd mkhmd()
 	else if((hmd = ovrHmd_CreateDebug(ovrHmd_DK2)))
 		print("Initialized head mounted display: %s - %s: virtual\n",
 		      hmd->Manufacturer, hmd->ProductName);
-	if(!hmd)
-		return hmd; // NULL with correct type
-
-	ovrHmd_SetEnabledCaps(hmd, ovrHmdCap_LowPersistence |
-	                           ovrHmdCap_DynamicPrediction);
+	if(hmd)
+		ovrHmd_SetEnabledCaps(hmd, ovrHmdCap_LowPersistence |
+		                           ovrHmdCap_DynamicPrediction);
 	return hmd;
 }
 

@@ -19,10 +19,8 @@
 #include <GL/glew.h> // must be included before gl.h in OVR_CAPI_GL.h
 #include "insight.h"
 
-unsigned         fbo;
-ovrSizei         bsz;
-ovrEyeRenderDesc rdesc[2];
-ovrGLTexture     gltex[2];
+unsigned fbo;
+ovrSizei bsz;
 
 static inline unsigned clp2(unsigned x)
 {

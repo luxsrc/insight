@@ -25,10 +25,9 @@
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
 
-extern ovrHmd           hmd;
 extern unsigned         fbo;
 extern ovrSizei         bsz;
-extern ovrEyeRenderDesc rdesc[2];
+extern ovrEyeRenderDesc rdesc[];
 extern ovrGLTexture     gltex[];
 
 extern ovrHmd        mkhmd();
@@ -38,12 +37,12 @@ extern void          rmwin(SDL_Window *);
 extern SDL_GLContext mkglc(ovrHmd, SDL_Window *);
 extern void          rmglc(SDL_GLContext);
 
-extern void setup();
+extern ovrHmd setup();
 
 extern void error(const char *, ...);
 extern void print(const char *, ...);
 
 extern bool handle(SDL_Event &);
-extern void display();
+extern void display(ovrHmd);
 
 #endif // INSIGHT_H
