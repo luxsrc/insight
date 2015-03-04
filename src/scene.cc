@@ -60,14 +60,14 @@ void scene(unsigned vol)
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_3D);
 	glBindTexture(GL_TEXTURE_3D, vol);
-	for(int i = 0; i < 256; ++i) {
-		float f =  i        / 255.0;
-		float g = (i-127.5) / 127.5;
+	for(int i = 0; i < 128; ++i) {
+		float f = i / 127.0;
+		float g = f -   0.5;
 		glBegin(GL_QUADS);
-		glTexCoord3f(1, 0, f); glVertex3f( 1, 1, g);
-		glTexCoord3f(0, 0, f); glVertex3f(-1, 1, g);
-		glTexCoord3f(0, 1, f); glVertex3f(-1,-1, g);
-		glTexCoord3f(1, 1, f); glVertex3f( 1,-1, g);
+		glTexCoord3f(1, 0, f); glVertex3f( 0.5f, 0.5f, g);
+		glTexCoord3f(0, 0, f); glVertex3f(-0.5f, 0.5f, g);
+		glTexCoord3f(0, 1, f); glVertex3f(-0.5f,-0.5f, g);
+		glTexCoord3f(1, 1, f); glVertex3f( 0.5f,-0.5f, g);
 		glEnd();
 	}
 	glBindTexture(GL_TEXTURE_3D, 0);

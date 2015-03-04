@@ -33,22 +33,22 @@ unsigned mkvol(const char *name)
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-        uint8_t *data = (uint8_t *)malloc(256 * 256 * 256 * 4);
-        for(int i = 0; i < 256; ++i)
-	        for(int j = 0; j < 256; ++j)
-		        for(int k = 0; k < 256; ++k) {
-			        int   h = ((i * 256 + j) * 256 + k) * 4;
-			        float g = exp(-((i-127.5) * (i-127.5) / 4096 +
-			                        (j-127.5) * (j-127.5) / 2048 +
-			                        (k-127.5) * (k-127.5) / 1024));
+        uint8_t *data = (uint8_t *)malloc(128 * 128 * 128 * 4);
+        for(int i = 0; i < 128; ++i)
+	        for(int j = 0; j < 128; ++j)
+		        for(int k = 0; k < 128; ++k) {
+			        int   h = ((i * 128 + j) * 128 + k) * 4;
+			        float g = exp(-((i-63.5) * (i-63.5) / 4096 +
+			                        (j-63.5) * (j-63.5) / 2048 +
+			                        (k-63.5) * (k-63.5) / 1024));
 			        data[h+0] = 255 * g;
 			        data[h+1] = 255 * g;
 			        data[h+2] = 255 * g;
-			        data[h+3] = 127 * g;
+			        data[h+3] =  63 * g;
 		        }
 
         glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA,
-                     256, 256, 256, 0,
+                     128, 128, 128, 0,
                      GL_RGBA, GL_UNSIGNED_BYTE, data);
 
         free(data);
