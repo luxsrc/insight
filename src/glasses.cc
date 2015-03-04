@@ -20,8 +20,8 @@
 
 void glasses()
 {
-	glTranslatef(0.25f, 0.25f,-1.0f);
-	glScalef(0.1f, 0.1f, 0.0f);
+	glTranslatef(0.125f, 0.125f,-0.5f);
+	glScalef(0.05f, 0.05f, 0.05f);
 
 	glBegin(GL_LINE_LOOP);
 		glVertex3f( 1.0f, 1.0f, 0.0f);

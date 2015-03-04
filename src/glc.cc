@@ -96,7 +96,7 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	glEnable(GL_LIGHT1);
 	glEnable(GL_NORMALIZE);
 
-	glClearColor(0.1, 0.1, 0.1, 1);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	print("Created OpenGL context with window size %d x %d and texture size %d x %d\n",
 	      global::bsz.w, global::bsz.h, tsz.w, tsz.h);
