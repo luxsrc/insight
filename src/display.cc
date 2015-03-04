@@ -43,7 +43,7 @@ static inline void quat_to_matrix(const float *q, float *M)
 	M[15] = 1.0f;
 }
 
-void display(ovrHmd hmd, void (*fixed)(), void (*mounted)())
+void display(ovrHmd hmd, void (*fixed)(), unsigned img)
 {
 	static unsigned long count = 0;
 	printf("%lu\n", count++);
@@ -73,9 +73,9 @@ void display(ovrHmd hmd, void (*fixed)(), void (*mounted)())
 		             global::rdesc[eye].HmdToEyeViewOffset.y,
 		             global::rdesc[eye].HmdToEyeViewOffset.z);
 
-		if(mounted) {
+		if(img) {
 			glPushMatrix();
-			mounted();
+			screen(img);
 			glPopMatrix();
 		}
 

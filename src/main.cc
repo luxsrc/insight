@@ -17,6 +17,7 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
+#include "img.h"
 #include <cstdlib>
 
 namespace global {
@@ -26,7 +27,8 @@ namespace global {
 
 int main(int argc, char *argv[])
 {
-	ovrHmd hmd = setup();
+	ovrHmd   hmd = setup();
+	unsigned img = argc > 1 ? mkimg(argv[1]) : 0;
 
 	for(bool done = 0; !done; ) {
 		SDL_Event event;
@@ -35,8 +37,9 @@ int main(int argc, char *argv[])
 		else
 			display(hmd,
 			        global::fixed   ? objects : NULL,
-			        global::mounted ? screen  : NULL);
+			        global::mounted ? img     : 0);
 	}
 
+	if(img) rmimg(img);
 	return EXIT_SUCCESS;
 }
