@@ -29,7 +29,7 @@ pro sample
       d[0,*,j,i] = 255 * (x + 1) / 2
       d[1,*,j,i] = 255 * (y + 1) / 2
       d[2,*,j,i] = 255 * (z + 1) / 2
-      d[3,*,j,i] = 127 * f
+      d[3,*,j,i] =  16 * f
     endfor
   endfor
 

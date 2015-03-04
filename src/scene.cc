@@ -55,7 +55,7 @@ void scene(unsigned vol)
 	glEnd();
 
 	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.125f);
+	glAlphaFunc(GL_GREATER, 1.0f/128);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_TEXTURE_3D);
