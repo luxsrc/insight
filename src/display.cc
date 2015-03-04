@@ -45,8 +45,6 @@ static inline void quat_to_matrix(const float *q, float *M)
 
 void display(ovrHmd hmd, unsigned vol, unsigned img)
 {
-	static unsigned long count = 0;
-
 	ovrVector3f offset[2] = {global::rdesc[0].HmdToEyeViewOffset,
 	                         global::rdesc[1].HmdToEyeViewOffset};
 	ovrPosef pose[2];
@@ -94,5 +92,9 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	ovrHmd_EndFrame(hmd, pose, &global::gltex[0].Texture);
 
-	printf("%4lu:%6.2f fps\n", ++count, 1.0 / t.DeltaSeconds);
+	static unsigned long count = 0;
+	++count;
+	const char spinner[] = "-/|\\";
+	print("\r%lu %c%6.2f fps", count, spinner[count % 4], 1.0 / t.DeltaSeconds);
+	fflush(stdout);
 }

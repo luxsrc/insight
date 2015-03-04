@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
 			        global::fixed   ? vol : 0,
 			        global::mounted ? img : 0);
 	}
+	putchar('\n');
 
 	if(img) rmimg(img);
 	if(vol) rmvol(vol);
