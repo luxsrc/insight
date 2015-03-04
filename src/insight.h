@@ -25,10 +25,12 @@
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
 
-extern unsigned         fbo;
-extern ovrSizei         bsz;
-extern ovrEyeRenderDesc rdesc[];
-extern ovrGLTexture     gltex[];
+namespace global {
+	extern unsigned         fbo;
+	extern ovrSizei         bsz;
+	extern ovrEyeRenderDesc rdesc[];
+	extern ovrGLTexture     gltex[];
+}
 
 extern ovrHmd setup();
 

@@ -24,8 +24,10 @@
 #include <cerrno>
 #include <cstring>
 
-ovrEyeRenderDesc rdesc[2];
-ovrGLTexture     gltex[2];
+namespace global {
+	ovrEyeRenderDesc rdesc[2];
+	ovrGLTexture     gltex[2];
+}
 
 static ovrHmd         hmd = 0;
 static SDL_Window    *win = NULL;
@@ -72,12 +74,12 @@ ovrHmd setup()
 	                              ovrDistortionCap_Chromatic |
 	                              ovrDistortionCap_TimeWarp  |
 	                              ovrDistortionCap_Overdrive,
-	                              hmd->DefaultEyeFov, rdesc))
+	                              hmd->DefaultEyeFov, global::rdesc))
 		error("Failed to configure distortion renderer\n");
 
 	if(!ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation |
 	                                  ovrTrackingCap_Position    |
-	                             ovrTrackingCap_MagYawCorrection, 0))
+	                                  ovrTrackingCap_MagYawCorrection, 0))
 		error("Failed to configure tracking\n");
 
 	return hmd;

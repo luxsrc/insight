@@ -20,8 +20,10 @@
 #include "insight.h"
 #include "hmd.h"
 
-unsigned fbo;
-ovrSizei bsz;
+namespace global {
+	unsigned fbo;
+	ovrSizei bsz;
+}
 
 static inline unsigned clp2(unsigned x)
 {
@@ -42,14 +44,15 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 
 	ovrSizei lsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Left,  hmd->DefaultEyeFov[ovrEye_Left],  1.0);
 	ovrSizei rsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Right, hmd->DefaultEyeFov[ovrEye_Right], 1.0);
-	ovrSizei tsz = {clp2(bsz.w = lsz.w + rsz.w), clp2(bsz.h = lsz.h > rsz.h ? lsz.h : rsz.h)};
+	ovrSizei tsz = {clp2(global::bsz.w = lsz.w + rsz.w),
+	                clp2(global::bsz.h = lsz.h > rsz.h ? lsz.h : rsz.h)};
 
 	glewInit();
 
 	// Generate framebuffer object name
 	// unsigned fbo;
-	glGenFramebuffers(1, &fbo);
-	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glGenFramebuffers(1, &global::fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, global::fbo);
 
 	// Generate renderbuffer object name
 	unsigned rbf;
@@ -75,13 +78,14 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 
 	// Fill out gltex as an output, will be used in ovrHmd_EndFrame()
 	for(int i = 0; i < 2; ++i) {
+		using namespace global;
 		gltex[i].OGL.Header.API = ovrRenderAPI_OpenGL;
 		gltex[i].OGL.Header.TextureSize.w = tsz.w;
 		gltex[i].OGL.Header.TextureSize.h = tsz.h;
-		gltex[i].OGL.Header.RenderViewport.Pos.x = !i ? 0 : bsz.w / 2.0;
+		gltex[i].OGL.Header.RenderViewport.Pos.x = !i ? 0 : global::bsz.w / 2.0;
 		gltex[i].OGL.Header.RenderViewport.Pos.y = 0;
-		gltex[i].OGL.Header.RenderViewport.Size.w = bsz.w / 2.0;
-		gltex[i].OGL.Header.RenderViewport.Size.h = bsz.h;
+		gltex[i].OGL.Header.RenderViewport.Size.w = global::bsz.w / 2.0;
+		gltex[i].OGL.Header.RenderViewport.Size.h = global::bsz.h;
 		gltex[i].OGL.TexId = tex;
 	}
 
@@ -95,7 +99,7 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	glClearColor(0.1, 0.1, 0.1, 1);
 
 	print("Created OpenGL context with window size %d x %d and texture size %d x %d\n",
-	      bsz.w, bsz.h, tsz.w, tsz.h);
+	      global::bsz.w, global::bsz.h, tsz.w, tsz.h);
 	return ctx;
 }
 

@@ -85,19 +85,20 @@ void display(ovrHmd hmd)
 	static unsigned long count = 0;
 	printf("%lu\n", count++);
 
-	ovrVector3f offset[2] = {rdesc[0].HmdToEyeViewOffset,
-	                         rdesc[1].HmdToEyeViewOffset};
+	ovrVector3f offset[2] = {global::rdesc[0].HmdToEyeViewOffset,
+	                         global::rdesc[1].HmdToEyeViewOffset};
 	ovrPosef pose[2];
 	ovrHmd_GetEyePoses(hmd, 0, offset, pose, NULL);
 
 	ovrHmd_BeginFrame(hmd, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, global::fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for(int i = 0; i < 2; ++i) {
 		ovrEyeType eye = hmd->EyeRenderOrder[i];
 
-		glViewport(eye == ovrEye_Left ? 0 : bsz.w / 2, 0, bsz.w / 2, bsz.h);
+		glViewport(eye == ovrEye_Left ? 0 : global::bsz.w / 2, 0,
+		           global::bsz.w / 2, global::bsz.h);
 
 		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
 		glMatrixMode(GL_PROJECTION);
@@ -105,9 +106,9 @@ void display(ovrHmd hmd)
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glTranslatef(rdesc[eye].HmdToEyeViewOffset.x,
-		             rdesc[eye].HmdToEyeViewOffset.y,
-		             rdesc[eye].HmdToEyeViewOffset.z);
+		glTranslatef(global::rdesc[eye].HmdToEyeViewOffset.x,
+		             global::rdesc[eye].HmdToEyeViewOffset.y,
+		             global::rdesc[eye].HmdToEyeViewOffset.z);
 
 		float Rij[16];
 		quat_to_matrix(&pose[eye].Orientation.x, Rij);
@@ -119,5 +120,5 @@ void display(ovrHmd hmd)
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	ovrHmd_EndFrame(hmd, pose, &gltex[0].Texture);
+	ovrHmd_EndFrame(hmd, pose, &global::gltex[0].Texture);
 }
