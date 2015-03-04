@@ -46,14 +46,13 @@ static inline void quat_to_matrix(const float *q, float *M)
 void display(ovrHmd hmd, unsigned vol, unsigned img)
 {
 	static unsigned long count = 0;
-	printf("%lu\n", count++);
 
 	ovrVector3f offset[2] = {global::rdesc[0].HmdToEyeViewOffset,
 	                         global::rdesc[1].HmdToEyeViewOffset};
 	ovrPosef pose[2];
 	ovrHmd_GetEyePoses(hmd, 0, offset, pose, NULL);
 
-	ovrHmd_BeginFrame(hmd, 0);
+	ovrFrameTiming t = ovrHmd_BeginFrame(hmd, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, global::fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -94,4 +93,6 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	ovrHmd_EndFrame(hmd, pose, &global::gltex[0].Texture);
+
+	printf("%4lu:%6.2f fps\n", ++count, 1.0 / t.DeltaSeconds);
 }
