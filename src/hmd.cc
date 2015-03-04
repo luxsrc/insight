@@ -32,11 +32,8 @@ ovrHmd mkhmd()
 	if(!hmd)
 		return hmd; // NULL with correct type
 
-	ovrHmd_SetEnabledCaps   (hmd, ovrHmdCap_LowPersistence   |
-	                              ovrHmdCap_DynamicPrediction);
-	ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation |
-	                              ovrTrackingCap_Position    |
-	                              ovrTrackingCap_MagYawCorrection, 0);
+	ovrHmd_SetEnabledCaps(hmd, ovrHmdCap_LowPersistence |
+	                           ovrHmdCap_DynamicPrediction);
 	return hmd;
 }
 

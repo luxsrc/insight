@@ -54,4 +54,24 @@ void setup()
 
 	if(!(glc = mkglc(hmd, win)))
 		error("Failed to create OpenGL context\n");
+
+	union ovrGLConfig config;
+	memset(&config, 0, sizeof(config));
+	config.OGL.Header.API = ovrRenderAPI_OpenGL;
+	config.OGL.Header.BackBufferSize.w = hmd->Resolution.w;
+	config.OGL.Header.BackBufferSize.h = hmd->Resolution.h;
+	config.OGL.Header.Multisample = 1;
+
+	// Fill out rdesc as an output, will be used in moving cameras/eyes
+	if(!ovrHmd_ConfigureRendering(hmd, &config.Config,
+	                              ovrDistortionCap_Chromatic |
+	                              ovrDistortionCap_TimeWarp  |
+	                              ovrDistortionCap_Overdrive,
+	                              hmd->DefaultEyeFov, rdesc))
+		error("Failed to configure distortion renderer\n");
+
+	if(!ovrHmd_ConfigureTracking(hmd, ovrTrackingCap_Orientation |
+	                                  ovrTrackingCap_Position    |
+	                             ovrTrackingCap_MagYawCorrection, 0))
+		error("Failed to configure tracking\n");
 }

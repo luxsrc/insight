@@ -41,8 +41,8 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 	if(!ctx)
 		return ctx; // NULL with correct type
 
-	ovrSizei lsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Left,  hmd->DefaultEyeFov[0], 1.0);
-	ovrSizei rsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Right, hmd->DefaultEyeFov[1], 1.0);
+	ovrSizei lsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Left,  hmd->DefaultEyeFov[ovrEye_Left],  1.0);
+	ovrSizei rsz = ovrHmd_GetFovTextureSize(hmd, ovrEye_Right, hmd->DefaultEyeFov[ovrEye_Right], 1.0);
 	ovrSizei tsz = {clp2(bsz.w = lsz.w + rsz.w), clp2(bsz.h = lsz.h > rsz.h ? lsz.h : rsz.h)};
 
 	glewInit();
@@ -73,21 +73,6 @@ SDL_GLContext mkglc(ovrHmd hmd, SDL_Window *win)
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	else
 		error("Failed to complete framebuffer\n");
-
-	union ovrGLConfig config;
-	memset(&config, 0, sizeof(config));
-	config.OGL.Header.API = ovrRenderAPI_OpenGL;
-	config.OGL.Header.BackBufferSize.w = hmd->Resolution.w;
-	config.OGL.Header.BackBufferSize.h = hmd->Resolution.h;
-	config.OGL.Header.Multisample = 1;
-
-	// Fill out rdesc as an output, will be used in moving cameras/eyes
-	if(!ovrHmd_ConfigureRendering(hmd, &config.Config,
-	                              ovrDistortionCap_Chromatic |
-	                              ovrDistortionCap_TimeWarp  |
-	                              ovrDistortionCap_Overdrive,
-	                              hmd->DefaultEyeFov, rdesc))
-		error("Failed to configure distortion renderer\n");
 
 	// Fill out gltex as an output, will be used in ovrHmd_EndFrame()
 	for(int i = 0; i < 2; ++i) {
