@@ -16,32 +16,17 @@
 // You should have received a copy of the GNU General Public License
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef INSIGHT_H
-#define INSIGHT_H
+#include "insight.h"
+#include "vol.h"
+#include <cstdio>
+#include <cstdint>
+#include <jpeglib.h>
 
-#include <cstddef> // must include before OVR_CAPI_GL.h to avoid C++ error
-
-#include <SDL2/SDL.h>
-#include <OVR_CAPI.h>
-#include <OVR_CAPI_GL.h>
-
-namespace global {
-	extern unsigned fbo;
-	extern ovrSizei bsz;
-	extern ovrEyeRenderDesc rdesc[];
-	extern ovrGLTexture     gltex[];
-	extern bool fixed;
-	extern bool mounted;
+unsigned mkvol(const char *name)
+{
+	return 1;
 }
 
-extern void error(const char *, ...);
-extern void print(const char *, ...);
-
-extern ovrHmd setup();
-extern bool   handle(SDL_Event &);
-extern void   display(ovrHmd, unsigned, unsigned);
-
-extern void scene (unsigned);
-extern void screen(unsigned);
-
-#endif // INSIGHT_H
+void rmvol(unsigned vol)
+{
+}

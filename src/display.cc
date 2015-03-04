@@ -43,7 +43,7 @@ static inline void quat_to_matrix(const float *q, float *M)
 	M[15] = 1.0f;
 }
 
-void display(ovrHmd hmd, void (*fixed)(), unsigned img)
+void display(ovrHmd hmd, unsigned vol, unsigned img)
 {
 	static unsigned long count = 0;
 	printf("%lu\n", count++);
@@ -85,9 +85,9 @@ void display(ovrHmd hmd, void (*fixed)(), unsigned img)
 		glTranslatef(-pose[eye].Position.x, -pose[eye].Position.y, -pose[eye].Position.z);
 		glTranslatef(0, -ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
 
-		if(fixed) {
+		if(vol) {
 			glPushMatrix();
-			fixed();
+			scene(vol);
 			glPopMatrix();
 		}
 	}

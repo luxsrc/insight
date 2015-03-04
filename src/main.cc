@@ -18,6 +18,7 @@
 
 #include "insight.h"
 #include "img.h"
+#include "vol.h"
 #include <cstdlib>
 
 namespace global {
@@ -28,7 +29,8 @@ namespace global {
 int main(int argc, char *argv[])
 {
 	ovrHmd   hmd = setup();
-	unsigned img = argc > 1 ? mkimg(argv[1]) : 0;
+	unsigned vol = argc > 1 ? mkvol(argv[1]) : 0;
+	unsigned img = argc > 2 ? mkimg(argv[2]) : 0;
 
 	for(bool done = 0; !done; ) {
 		SDL_Event event;
@@ -36,10 +38,11 @@ int main(int argc, char *argv[])
 			done = handle(event);
 		else
 			display(hmd,
-			        global::fixed   ? objects : NULL,
-			        global::mounted ? img     : 0);
+			        global::fixed   ? vol : 0,
+			        global::mounted ? img : 0);
 	}
 
 	if(img) rmimg(img);
+	if(vol) rmvol(vol);
 	return EXIT_SUCCESS;
 }
