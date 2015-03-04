@@ -19,6 +19,11 @@
 #include "insight.h"
 #include <cstdlib>
 
+namespace global {
+	bool fixed   = true;
+	bool mounted = true;
+}
+
 int main(int argc, char *argv[])
 {
 	ovrHmd hmd = setup();
@@ -28,7 +33,9 @@ int main(int argc, char *argv[])
 		if(SDL_PollEvent(&event))
 			done = handle(event);
 		else
-			display(hmd, objects, glasses);
+			display(hmd,
+			        global::fixed   ? objects : NULL,
+			        global::mounted ? glasses : NULL);
 	}
 
 	return EXIT_SUCCESS;

@@ -26,10 +26,12 @@
 #include <OVR_CAPI_GL.h>
 
 namespace global {
-	extern unsigned         fbo;
-	extern ovrSizei         bsz;
+	extern unsigned fbo;
+	extern ovrSizei bsz;
 	extern ovrEyeRenderDesc rdesc[];
 	extern ovrGLTexture     gltex[];
+	extern bool fixed;
+	extern bool mounted;
 }
 
 extern void error(const char *, ...);

@@ -27,6 +27,12 @@ bool handle(SDL_Event &e)
 		switch(e.key.keysym.sym) {
 		case 27:
 			return 1;
+		case 'f':
+			global::fixed = !global::fixed;
+			break;
+		case 'm':
+			global::mounted = !global::mounted;
+			break;
 		}
 	}
 	return 0;
