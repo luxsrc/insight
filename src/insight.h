@@ -35,6 +35,7 @@ namespace global {
 namespace control {
 	extern bool  fixed;
 	extern bool  mounted;
+	extern bool  sitting;
 	extern bool  pressing;
 	extern int   key;
 	extern float theta;

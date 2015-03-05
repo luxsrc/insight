@@ -32,7 +32,11 @@ void scene(unsigned vol)
 		glLightfv(GL_LIGHT0+i, GL_DIFFUSE,  col[i]);
 	}
 
-	glTranslatef(0.0f, 1.0f,-1.0f);
+	if(control::sitting)
+		glTranslatef(0.0f, 1.0f,-1.0f);
+	else
+		glTranslatef(0.0f, 2.0f, 0.0f);
+
 	glRotatef(control::phi,        0.0f, 1.0f, 0.0f);
 	glRotatef(control::theta - 90, 1.0f, 0.0f, 0.0f);
 

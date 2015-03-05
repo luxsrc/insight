@@ -19,29 +19,35 @@
 #include "insight.h"
 
 namespace control {
+	bool sitting  = true;
 	bool pressing = false;
 	int  key      = 0;
 };
 
 bool handle(SDL_Event &e)
 {
+	using namespace control;
+
 	switch(e.type) {
 	case SDL_QUIT:
 		return 1;
 	case SDL_KEYDOWN:
-		control::pressing = true;
-		control::key = e.key.keysym.sym;
+		pressing = true;
+		key = e.key.keysym.sym;
 		break;
 	case SDL_KEYUP:
-		control::pressing = false;
-		switch(control::key) {
+		pressing = false;
+		switch(key) {
 		case 27:
 			return 1;
 		case 'f':
-			control::fixed = !control::fixed;
+			fixed = !fixed;
 			break;
 		case 'm':
-			control::mounted = !control::mounted;
+			mounted = !mounted;
+			break;
+		case 's':
+			sitting = !sitting;
 			break;
 		}
 	}
