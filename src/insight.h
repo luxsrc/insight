@@ -45,10 +45,12 @@ extern void error(const char *, ...);
 extern void print(const char *, ...);
 
 extern ovrHmd setup();
-extern bool   handle(SDL_Event &);
-extern void   display(ovrHmd, unsigned, unsigned);
 
-extern void scene (unsigned);
-extern void screen(unsigned);
+extern bool handle(SDL_Event &);
+extern void repeat(int);
+
+extern void display(ovrHmd, unsigned, unsigned);
+extern void scene  (unsigned);
+extern void screen (unsigned);
 
 #endif // INSIGHT_H

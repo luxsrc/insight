@@ -17,43 +17,25 @@
 // along with insight.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "insight.h"
-#include "img.h"
-#include "vol.h"
-#include <cstdlib>
 
-namespace control {
-	bool fixed   = true;
-	bool mounted = true;
-}
-
-int main(int argc, char *argv[])
+void repeat(int key)
 {
-	ovrHmd   hmd = setup();
-	unsigned vol = 0;
-	unsigned img = 0;
-	if(argc > 1) {
-		char name[1024];
-		sprintf(name, "%s.raw", argv[1]);
-		vol = mkvol(name);
-		sprintf(name, "%s.jpg", argv[1]);
-		img = mkimg(name);
+	switch(control::key) {
+	case SDLK_LEFT:
+		control::phi += 1.0f;
+		break;
+	case SDLK_RIGHT:
+		control::phi -= 1.0f;
+		break;
+	case SDLK_UP:
+		control::theta += 1.0f;
+		if(control::theta > 180)
+			control::theta = 180;
+		break;
+	case SDLK_DOWN:
+		control::theta -= 1.0f;
+		if(control::theta < 0)
+			control::theta = 0;
+		break;
 	}
-
-	for(bool done = 0; !done; ) {
-		SDL_Event event;
-		if(SDL_PollEvent(&event))
-			done = handle(event);
-		else
-			display(hmd,
-			        control::fixed   ? vol : 0,
-			        control::mounted ? img : 0);
-
-		if(control::pressing)
-			repeat(control::key);
-	}
-	putchar('\n');
-
-	if(img) rmimg(img);
-	if(vol) rmvol(vol);
-	return EXIT_SUCCESS;
 }
