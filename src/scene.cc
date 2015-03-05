@@ -18,6 +18,11 @@
 
 #include "insight.h"
 
+namespace control {
+	float theta = 90;
+	float phi   = 0;
+}
+
 void scene(unsigned vol)
 {
 	float pos[][4] = {{-8.0f, 2.0f,10.0f, 1.0f}, {0.0f,15.0f, 0.0f, 1.0f}};
@@ -28,6 +33,8 @@ void scene(unsigned vol)
 	}
 
 	glTranslatef(0.0f, 1.0f,-1.0f);
+	glRotatef(control::phi,        0.0f, 1.0f, 0.0f);
+	glRotatef(control::theta - 90, 1.0f, 0.0f, 0.0f);
 
 	glBegin(GL_LINE_STRIP);
 		glVertex3f( 0.5f, 0.5f, 0.5f);

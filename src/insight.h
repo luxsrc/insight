@@ -33,8 +33,10 @@ namespace global {
 }
 
 namespace control {
-	extern bool fixed;
-	extern bool mounted;
+	extern bool  fixed;
+	extern bool  mounted;
+	extern float theta;
+	extern float phi;
 }
 
 extern void error(const char *, ...);
