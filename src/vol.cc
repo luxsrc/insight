@@ -31,7 +31,7 @@ unsigned mkvol(const char *name)
         fread(data, 1, 128 * 128 * 128 * 4, file);
         fclose(file);
 
-	unsigned vol;
+        unsigned vol;
 	glGenTextures(1, &vol);
 	glBindTexture(GL_TEXTURE_3D, vol);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);

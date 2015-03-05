@@ -64,10 +64,10 @@ void scene(unsigned vol)
 		float f = i / 127.0;
 		float g = f -   0.5;
 		glBegin(GL_QUADS);
-		glTexCoord3f(1, 0, f); glVertex3f( 0.5f, 0.5f, g);
-		glTexCoord3f(0, 0, f); glVertex3f(-0.5f, 0.5f, g);
-		glTexCoord3f(0, 1, f); glVertex3f(-0.5f,-0.5f, g);
-		glTexCoord3f(1, 1, f); glVertex3f( 0.5f,-0.5f, g);
+		glTexCoord3f(1, 1, f); glVertex3f( 0.5f, 0.5f, g);
+		glTexCoord3f(1, 0, f); glVertex3f(-0.5f, 0.5f, g);
+		glTexCoord3f(0, 0, f); glVertex3f(-0.5f,-0.5f, g);
+		glTexCoord3f(0, 1, f); glVertex3f( 0.5f,-0.5f, g);
 		glEnd();
 	}
 	glBindTexture(GL_TEXTURE_3D, 0);
