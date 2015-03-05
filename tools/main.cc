@@ -24,8 +24,8 @@
 #include <cstdint>
 #include <cstdio>
 
-#define R 64
-#define N 128
+#define R 128
+#define N 256
 #define X 2
 
 static inline real i2c(real i, real n) { return (R) * (i - 0.5 * (n-1)) / n; }
@@ -79,12 +79,12 @@ int main(int argc, char *argv[])
 	if(!data)
 		error("Failed to allocate memory\n");
 
-	for(int i = 0; i < 128; ++i)
-		for(int j = 0; j < 128; ++j)
-			for(int k = 0; k < 128; ++k)
+	for(int i = 0; i < N; ++i)
+		for(int j = 0; j < N; ++j)
+			for(int k = 0; k < N; ++k)
 				process(i, j, k, c, data);
 	print("maxima: %g %g %g %g\n", max0, max1, max2, max3);
-	fwrite(data, 1, 4 * N * N * N, file);
+	fwrite(data, 1, N * N * N * 4, file);
 	free(data);
 	fclose(file);
 

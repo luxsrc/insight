@@ -21,14 +21,16 @@
 #include <cstdio>
 #include <cstdint>
 
+#define N 256
+
 unsigned mkvol(const char *name)
 {
 	FILE *file = fopen(name, "rb");
 	if(!file)
 		return 0;
 
-        uint8_t *data = (uint8_t *)malloc(128 * 128 * 128 * 4);
-        fread(data, 1, 128 * 128 * 128 * 4, file);
+        uint8_t *data = (uint8_t *)malloc(N * N * N * 4);
+        fread(data, 1, N * N * N * 4, file);
         fclose(file);
 
         unsigned vol;
@@ -40,8 +42,7 @@ unsigned mkvol(const char *name)
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA,
-                     128, 128, 128, 0,
+        glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA, N, N, N, 0,
                      GL_RGBA, GL_UNSIGNED_BYTE, data);
         free(data);
 
