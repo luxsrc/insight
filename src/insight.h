@@ -30,6 +30,9 @@ namespace global {
 	extern ovrSizei bsz;
 	extern ovrEyeRenderDesc rdesc[];
 	extern ovrGLTexture     gltex[];
+}
+
+namespace control {
 	extern bool fixed;
 	extern bool mounted;
 }

@@ -28,10 +28,10 @@ bool handle(SDL_Event &e)
 		case 27:
 			return 1;
 		case 'f':
-			global::fixed = !global::fixed;
+			control::fixed = !control::fixed;
 			break;
 		case 'm':
-			global::mounted = !global::mounted;
+			control::mounted = !control::mounted;
 			break;
 		}
 	}

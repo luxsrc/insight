@@ -21,7 +21,7 @@
 #include "vol.h"
 #include <cstdlib>
 
-namespace global {
+namespace control {
 	bool fixed   = true;
 	bool mounted = true;
 }
@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 			done = handle(event);
 		else
 			display(hmd,
-			        global::fixed   ? vol : 0,
-			        global::mounted ? img : 0);
+			        control::fixed   ? vol : 0,
+			        control::mounted ? img : 0);
 	}
 	putchar('\n');
 
