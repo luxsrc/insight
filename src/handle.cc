@@ -18,13 +18,23 @@
 
 #include "insight.h"
 
+namespace control {
+	bool pressing = false;
+	int  key      = 0;
+};
+
 bool handle(SDL_Event &e)
 {
 	switch(e.type) {
 	case SDL_QUIT:
 		return 1;
+	case SDL_KEYDOWN:
+		control::pressing = true;
+		control::key = e.key.keysym.sym;
+		break;
 	case SDL_KEYUP:
-		switch(e.key.keysym.sym) {
+		control::pressing = false;
+		switch(control::key) {
 		case 27:
 			return 1;
 		case 'f':
@@ -32,23 +42,6 @@ bool handle(SDL_Event &e)
 			break;
 		case 'm':
 			control::mounted = !control::mounted;
-			break;
-		}
-	case SDL_KEYDOWN:
-		switch(e.key.keysym.sym) {
-		case SDLK_LEFT:
-			control::phi += 1.0f;
-			break;
-		case SDLK_RIGHT:
-			control::phi -= 1.0f;
-			break;
-		case SDLK_UP:
-			control::theta += 1.0f;
-			if(control::theta > 180) control::theta = 180;
-			break;
-		case SDLK_DOWN:
-			control::theta -= 1.0f;
-			if(control::theta < 0) control::theta = 0;
 			break;
 		}
 	}

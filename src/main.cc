@@ -47,6 +47,25 @@ int main(int argc, char *argv[])
 			display(hmd,
 			        control::fixed   ? vol : 0,
 			        control::mounted ? img : 0);
+
+		if(control::pressing) switch(control::key) {
+		case SDLK_LEFT:
+			control::phi += 1.0f;
+			break;
+		case SDLK_RIGHT:
+			control::phi -= 1.0f;
+			break;
+		case SDLK_UP:
+			control::theta += 1.0f;
+			if(control::theta > 180)
+				control::theta = 180;
+			break;
+		case SDLK_DOWN:
+			control::theta -= 1.0f;
+			if(control::theta < 0)
+				control::theta = 0;
+			break;
+		}
 	}
 	putchar('\n');
 
