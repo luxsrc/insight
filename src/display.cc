@@ -47,20 +47,19 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 {
 	ovrVector3f offset[2] = {global::rdesc[0].HmdToEyeViewOffset,
 	                         global::rdesc[1].HmdToEyeViewOffset};
-	ovrPosef pose[2];
-	ovrHmd_GetEyePoses(hmd, 0, offset, pose, NULL);
+	ovrPosef pose[2]; ovrHmd_GetEyePoses(hmd, 0, offset, pose, NULL);
 
 	ovrFrameTiming t = ovrHmd_BeginFrame(hmd, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, global::fbo);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for(int i = 0; i < 2; ++i) {
-		ovrEyeType eye = hmd->EyeRenderOrder[i];
+		ovrEyeType  eye  = hmd->EyeRenderOrder[i];
+		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.01f, 1000.0f, true);
+		ovrMatrix4f Rij; quat_to_matrix(&pose[eye].Orientation.x, Rij.M[0]);
 
-		glViewport(eye == ovrEye_Left ? 0 : global::bsz.w / 2, 0,
-		           global::bsz.w / 2, global::bsz.h);
+		glViewport(eye == ovrEye_Left ? 0 : global::bsz.w / 2, 0, global::bsz.w / 2, global::bsz.h);
 
-		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.5, 500.0, 1);
 		glMatrixMode(GL_PROJECTION);
 		glLoadTransposeMatrixf(proj.M[0]);
 
@@ -70,18 +69,19 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 		             global::rdesc[eye].HmdToEyeViewOffset.y,
 		             global::rdesc[eye].HmdToEyeViewOffset.z);
 
+		// Head-mounted models
 		if(img) {
 			glPushMatrix();
 			screen(img);
 			glPopMatrix();
 		}
 
-		float Rij[16];
-		quat_to_matrix(&pose[eye].Orientation.x, Rij);
-		glMultMatrixf(Rij);
-		glTranslatef(-pose[eye].Position.x, -pose[eye].Position.y, -pose[eye].Position.z);
-		glTranslatef(0, -ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
+		glMultMatrixf(Rij.M[0]);
+		glTranslatef(-pose[eye].Position.x,
+		             -pose[eye].Position.y - ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65),
+		             -pose[eye].Position.z);
 
+		// Spatially fixed models
 		scene(vol);
 	}
 
