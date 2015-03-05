@@ -36,10 +36,7 @@ void scene(unsigned vol)
 		glTranslatef(0.0f, 1.0f,-1.0f);
 	else
 		glTranslatef(0.0f, 2.0f, 0.0f);
-
 	glScalef(0.5f, 0.5f, 0.5f);
-	glRotatef(control::phi,        0, 1, 0);
-	glRotatef(control::theta - 90, 1, 0, 0);
 
 	glBegin(GL_LINE_STRIP);
 		glVertex3f( 1, 1, 1);
@@ -76,13 +73,24 @@ void scene(unsigned vol)
 	glEnable(GL_TEXTURE_3D);
 	glBindTexture(GL_TEXTURE_3D, vol);
 	for(int i = 0; i < 128; ++i) {
-		float f = i / 127.0;
-		float g = 2 * f - 1;
+		float g   = 2 * i / 127.0 - 1;
+		float v[] = {1,  1, -1, -1,
+		             1, -1, -1,  1,
+		             g,  g,  g,  g,
+		             1,  1,  1,  1};
+		glPushMatrix();
+		glLoadMatrixf(v);
+		glScalef(0.25f, 0.25f, 0.25f);
+		glRotatef(control::theta - 90, 0, 1, 0);
+		glRotatef(control::phi,        1, 0, 0);
+		glGetFloatv(GL_MODELVIEW_MATRIX, v);
+		glPopMatrix();
+
 		glBegin(GL_QUADS);
-		glTexCoord3f(1, 1, f); glVertex3f( 1, 1, g);
-		glTexCoord3f(1, 0, f); glVertex3f(-1, 1, g);
-		glTexCoord3f(0, 0, f); glVertex3f(-1,-1, g);
-		glTexCoord3f(0, 1, f); glVertex3f( 1,-1, g);
+		glTexCoord3f(v[0]+0.5f, v[4]+0.5f, v[ 8]+0.5f); glVertex3f( 1, 1, g);
+		glTexCoord3f(v[1]+0.5f, v[5]+0.5f, v[ 9]+0.5f); glVertex3f(-1, 1, g);
+		glTexCoord3f(v[2]+0.5f, v[6]+0.5f, v[10]+0.5f); glVertex3f(-1,-1, g);
+		glTexCoord3f(v[3]+0.5f, v[7]+0.5f, v[11]+0.5f); glVertex3f( 1,-1, g);
 		glEnd();
 	}
 	glBindTexture(GL_TEXTURE_3D, 0);
