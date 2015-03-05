@@ -61,6 +61,9 @@ void scene(unsigned vol)
 		glVertex3f(-0.5f,-0.5f, 0.5f);
 	glEnd();
 
+	if(!vol)
+		return;
+
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 1.0f/128);
 	glEnable(GL_BLEND);

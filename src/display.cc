@@ -82,11 +82,7 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 		glTranslatef(-pose[eye].Position.x, -pose[eye].Position.y, -pose[eye].Position.z);
 		glTranslatef(0, -ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
 
-		if(vol) {
-			glPushMatrix();
-			scene(vol);
-			glPopMatrix();
-		}
+		scene(vol);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
