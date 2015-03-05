@@ -54,20 +54,20 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for(int i = 0; i < 2; ++i) {
-		ovrEyeType  eye  = hmd->EyeRenderOrder[i];
-		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.01f, 1000.0f, true);
-		ovrMatrix4f Rij; quat_to_matrix(&pose[eye].Orientation.x, Rij.M[0]);
-
+		ovrEyeType  eye = hmd->EyeRenderOrder[i];
 		glViewport(eye == ovrEye_Left ? 0 : global::bsz.w / 2, 0, global::bsz.w / 2, global::bsz.h);
 
 		glMatrixMode(GL_PROJECTION);
+		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.01f, 1000.0f, true);
 		glLoadTransposeMatrixf(proj.M[0]);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		glTranslatef(global::rdesc[eye].HmdToEyeViewOffset.x,
-		             global::rdesc[eye].HmdToEyeViewOffset.y,
-		             global::rdesc[eye].HmdToEyeViewOffset.z);
+
+		float x = global::rdesc[eye].HmdToEyeViewOffset.x;
+		float y = global::rdesc[eye].HmdToEyeViewOffset.y;
+		float z = global::rdesc[eye].HmdToEyeViewOffset.z;
+		glTranslatef(x, y, z);
 
 		// Head-mounted models
 		if(img) {
@@ -76,10 +76,14 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 			glPopMatrix();
 		}
 
+		ovrMatrix4f Rij;
+		quat_to_matrix(&pose[eye].Orientation.x, Rij.M[0]);
 		glMultMatrixf(Rij.M[0]);
-		glTranslatef(-pose[eye].Position.x,
-		             -pose[eye].Position.y - ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.65),
-		             -pose[eye].Position.z);
+
+		x += pose[eye].Position.x;
+		y += pose[eye].Position.y + ovrHmd_GetFloat(hmd, OVR_KEY_EYE_HEIGHT, 1.675);
+		z += pose[eye].Position.z;
+		glTranslatef(-x, -y, -z);
 
 		// Spatially fixed models
 		scene(vol);

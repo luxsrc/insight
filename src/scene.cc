@@ -33,7 +33,7 @@ void scene(unsigned vol)
 	}
 
 	if(control::sitting)
-		glTranslatef(0.0f, 1.0f,-1.0f);
+		glTranslatef(0.0f, 1.675f, -1.0f);
 	else
 		glTranslatef(0.0f, 2.0f, 0.0f);
 	glScalef(0.5f, 0.5f, 0.5f);
