@@ -84,6 +84,8 @@ int main(int argc, char *argv[])
 			for(int k = 0; k < N; ++k)
 				process(i, j, k, c, data);
 	print("maxima: %g %g %g %g\n", max0, max1, max2, max3);
+	int n = N;
+	fwrite(&n, sizeof(int), 1, file);
 	fwrite(data, 1, N * N * N * 4, file);
 	free(data);
 	fclose(file);
