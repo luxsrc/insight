@@ -52,7 +52,7 @@ void process(int n, int m, int l, Const &c, uint8_t *d)
 					f0 += 1e4 * f.tgas;
 					f1 += 1e4 * f.ur;
 					f2 += 1e3 * f.uphi * s.r;
-					f3 += 1e3 * f.rho  * f.rho;
+					f3 += 5e1 * f.ibeta;
 				}
 			}
 
