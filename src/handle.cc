@@ -40,10 +40,10 @@ bool handle(SDL_Event &e)
 		switch(key) {
 		case 27:
 			return 1;
-		case 'f':
+		case 'a':
 			fixed = !fixed;
 			break;
-		case 'm':
+		case 'b':
 			mounted = !mounted;
 			break;
 		case 's':
