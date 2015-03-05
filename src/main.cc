@@ -29,8 +29,15 @@ namespace global {
 int main(int argc, char *argv[])
 {
 	ovrHmd   hmd = setup();
-	unsigned vol = argc > 1 ? mkvol(argv[1]) : 0;
-	unsigned img = argc > 2 ? mkimg(argv[2]) : 0;
+	unsigned vol = 0;
+	unsigned img = 0;
+	if(argc > 1) {
+		char name[1024];
+		sprintf(name, "%s.raw", argv[1]);
+		vol = mkvol(name);
+		sprintf(name, "%s.jpg", argv[1]);
+		img = mkimg(name);
+	}
 
 	for(bool done = 0; !done; ) {
 		SDL_Event event;
