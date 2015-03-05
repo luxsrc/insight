@@ -37,32 +37,33 @@ void scene(unsigned vol)
 	else
 		glTranslatef(0.0f, 2.0f, 0.0f);
 
-	glRotatef(control::phi,        0.0f, 1.0f, 0.0f);
-	glRotatef(control::theta - 90, 1.0f, 0.0f, 0.0f);
+	glScalef(0.5f, 0.5f, 0.5f);
+	glRotatef(control::phi,        0, 1, 0);
+	glRotatef(control::theta - 90, 1, 0, 0);
 
 	glBegin(GL_LINE_STRIP);
-		glVertex3f( 0.5f, 0.5f, 0.5f);
-		glVertex3f(-0.5f, 0.5f, 0.5f);
-		glVertex3f(-0.5f,-0.5f, 0.5f);
-		glVertex3f(-0.5f,-0.5f,-0.5f);
+		glVertex3f( 1, 1, 1);
+		glVertex3f(-1, 1, 1);
+		glVertex3f(-1,-1, 1);
+		glVertex3f(-1,-1,-1);
 	glEnd();
 	glBegin(GL_LINE_STRIP);
-		glVertex3f(-0.5f, 0.5f, 0.5f);
-		glVertex3f(-0.5f, 0.5f,-0.5f);
-		glVertex3f(-0.5f,-0.5f,-0.5f);
-		glVertex3f( 0.5f,-0.5f,-0.5f);
+		glVertex3f(-1, 1, 1);
+		glVertex3f(-1, 1,-1);
+		glVertex3f(-1,-1,-1);
+		glVertex3f( 1,-1,-1);
 	glEnd();
 	glBegin(GL_LINE_STRIP);
-		glVertex3f(-0.5f, 0.5f,-0.5f);
-		glVertex3f( 0.5f, 0.5f,-0.5f);
-		glVertex3f( 0.5f,-0.5f,-0.5f);
-		glVertex3f( 0.5f,-0.5f, 0.5f);
+		glVertex3f(-1, 1,-1);
+		glVertex3f( 1, 1,-1);
+		glVertex3f( 1,-1,-1);
+		glVertex3f( 1,-1, 1);
 	glEnd();
 	glBegin(GL_LINE_STRIP);
-		glVertex3f( 0.5f, 0.5f,-0.5f);
-		glVertex3f( 0.5f, 0.5f, 0.5f);
-		glVertex3f( 0.5f,-0.5f, 0.5f);
-		glVertex3f(-0.5f,-0.5f, 0.5f);
+		glVertex3f( 1, 1,-1);
+		glVertex3f( 1, 1, 1);
+		glVertex3f( 1,-1, 1);
+		glVertex3f(-1,-1, 1);
 	glEnd();
 
 	if(!vol)
@@ -76,12 +77,12 @@ void scene(unsigned vol)
 	glBindTexture(GL_TEXTURE_3D, vol);
 	for(int i = 0; i < 128; ++i) {
 		float f = i / 127.0;
-		float g = f -   0.5;
+		float g = 2 * f - 1;
 		glBegin(GL_QUADS);
-		glTexCoord3f(1, 1, f); glVertex3f( 0.5f, 0.5f, g);
-		glTexCoord3f(1, 0, f); glVertex3f(-0.5f, 0.5f, g);
-		glTexCoord3f(0, 0, f); glVertex3f(-0.5f,-0.5f, g);
-		glTexCoord3f(0, 1, f); glVertex3f( 0.5f,-0.5f, g);
+		glTexCoord3f(1, 1, f); glVertex3f( 1, 1, g);
+		glTexCoord3f(1, 0, f); glVertex3f(-1, 1, g);
+		glTexCoord3f(0, 0, f); glVertex3f(-1,-1, g);
+		glTexCoord3f(0, 1, f); glVertex3f( 1,-1, g);
 		glEnd();
 	}
 	glBindTexture(GL_TEXTURE_3D, 0);
