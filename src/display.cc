@@ -90,7 +90,15 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 
 	static unsigned long count = 0;
 	++count;
+
+	static double longest = 0.0;
+	if(longest < t.DeltaSeconds)
+		longest = t.DeltaSeconds;
+
 	const char spinner[] = "-/|\\";
-	print("\r%lu %c%6.2f fps", count, spinner[count % 4], 1.0 / t.DeltaSeconds);
+	print("\r%lu %c%6.2f fps [slowest:%6.2f fps]",
+	      count, spinner[count % 4],
+	      t.DeltaSeconds > 0.0 ? 1.0 / t.DeltaSeconds : 0.0,
+	      longest        > 0.0 ? 1.0 / longest        : 0.0);
 	fflush(stdout);
 }
