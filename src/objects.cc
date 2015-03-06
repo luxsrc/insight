@@ -53,17 +53,19 @@ static void volume(unsigned vol)
 		             1,  1,  1,  1};
 		glPushMatrix();
 		glLoadMatrixf(v);
-		glScalef(0.25f, 0.25f, 0.25f);
+		const float s = (float)(0.5 / sqrt(3.0));
+		glScalef(s, s, s);
 		glRotatef(control::theta - 90, 0, 1, 0);
 		glRotatef(control::phi,        1, 0, 0);
 		glGetFloatv(GL_MODELVIEW_MATRIX, v);
 		glPopMatrix();
 
 		glBegin(GL_QUADS);
-		glTexCoord3f(v[0]+0.5f, v[4]+0.5f, v[ 8]+0.5f); glVertex3f( 1, 1, g);
-		glTexCoord3f(v[1]+0.5f, v[5]+0.5f, v[ 9]+0.5f); glVertex3f(-1, 1, g);
-		glTexCoord3f(v[2]+0.5f, v[6]+0.5f, v[10]+0.5f); glVertex3f(-1,-1, g);
-		glTexCoord3f(v[3]+0.5f, v[7]+0.5f, v[11]+0.5f); glVertex3f( 1,-1, g);
+		const float h = 0.5f;
+		glTexCoord3f(v[0]+h, v[4]+h, v[ 8]+h); glVertex3f( 1, 1, g);
+		glTexCoord3f(v[1]+h, v[5]+h, v[ 9]+h); glVertex3f(-1, 1, g);
+		glTexCoord3f(v[2]+h, v[6]+h, v[10]+h); glVertex3f(-1,-1, g);
+		glTexCoord3f(v[3]+h, v[7]+h, v[11]+h); glVertex3f( 1,-1, g);
 		glEnd();
 	}
 	glBindTexture(GL_TEXTURE_3D, 0);

@@ -24,8 +24,8 @@
 #include <cstdint>
 #include <cstdio>
 
-#define R 128
-#define N 256
+#define R 111 // 64  sqrt(3)
+#define N 222 // 128 sqrt(3)
 #define X 2
 
 static inline real i2c(real i, real n) { return (R) * (i - 0.5 * (n-1)) / n; }
