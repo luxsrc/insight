@@ -51,7 +51,7 @@ extern bool handle(ovrHmd, SDL_Event &);
 extern void repeat(int);
 
 extern void display(ovrHmd, unsigned, unsigned);
-extern void scene  (unsigned);
-extern void screen (unsigned);
+extern void glasses(unsigned);
+extern void objects(unsigned);
 
 #endif // INSIGHT_H

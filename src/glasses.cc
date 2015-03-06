@@ -18,7 +18,7 @@
 
 #include "insight.h"
 
-void screen(unsigned img)
+void glasses(unsigned img)
 {
 	float grey[] = {0.5f, 0.5f, 0.5f, 1.0f};
 

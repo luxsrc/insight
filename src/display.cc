@@ -54,11 +54,12 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for(int i = 0; i < 2; ++i) {
-		ovrEyeType  eye = hmd->EyeRenderOrder[i];
+		ovrEyeType eye = hmd->EyeRenderOrder[i];
 		glViewport(eye == ovrEye_Left ? 0 : global::bsz.w / 2, 0, global::bsz.w / 2, global::bsz.h);
 
 		glMatrixMode(GL_PROJECTION);
-		ovrMatrix4f proj = ovrMatrix4f_Projection(hmd->DefaultEyeFov[eye], 0.01f, 1000.0f, true);
+		ovrFovPort  fov  = hmd->DefaultEyeFov[eye];
+		ovrMatrix4f proj = ovrMatrix4f_Projection(fov, 0.01f, 1000.0f, true);
 		glLoadTransposeMatrixf(proj.M[0]);
 
 		glMatrixMode(GL_MODELVIEW);
@@ -72,7 +73,7 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 		// Head-mounted models
 		if(img) {
 			glPushMatrix();
-			screen(img);
+			glasses(img);
 			glPopMatrix();
 		}
 
@@ -85,24 +86,26 @@ void display(ovrHmd hmd, unsigned vol, unsigned img)
 		z += pose[eye].Position.z;
 		glTranslatef(-x, -y, -z);
 
-		// Spatially fixed models
-		scene(vol);
+		// Spatially fixed objects
+		objects(vol);
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	ovrHmd_EndFrame(hmd, pose, &global::gltex[0].Texture);
 
-	static unsigned long count = 0;
-	++count;
+	const char spinner[] = "-/|\\";
+	static unsigned long count = 0; ++count;
+	print("\r%lu %c", count, spinner[count % 4]);
+
+	if(t.DeltaSeconds > 0.0)
+		print("%6.2f fps, ", 1.0 / t.DeltaSeconds);
 
 	static double longest = 0.0;
-	if(longest < t.DeltaSeconds)
+	if(longest < t.DeltaSeconds && count > 100)
 		longest = t.DeltaSeconds;
 
-	const char spinner[] = "-/|\\";
-	print("\r%lu %c%6.2f fps [slowest:%6.2f fps]",
-	      count, spinner[count % 4],
-	      t.DeltaSeconds > 0.0 ? 1.0 / t.DeltaSeconds : 0.0,
-	      longest        > 0.0 ? 1.0 / longest        : 0.0);
+	if(longest > 0.0)
+		print("[slowest: %.2f fps]", 1.0 / longest);
+
 	fflush(stdout);
 }
