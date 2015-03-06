@@ -47,7 +47,7 @@ extern void print(const char *, ...);
 
 extern ovrHmd setup();
 
-extern bool handle(SDL_Event &);
+extern bool handle(ovrHmd, SDL_Event &);
 extern void repeat(int);
 
 extern void display(ovrHmd, unsigned, unsigned);

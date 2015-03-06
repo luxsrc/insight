@@ -39,10 +39,10 @@ int main(int argc, char *argv[])
 		img = mkimg(name);
 	}
 
-	for(bool done = 0; !done; ) {
+	for(bool done = false; !done; ) {
 		SDL_Event event;
 		if(SDL_PollEvent(&event))
-			done = handle(event);
+			done = handle(hmd, event);
 		else
 			display(hmd,
 			        control::fixed   ? vol : 0,

@@ -24,7 +24,9 @@ namespace control {
 	int  key      = 0;
 };
 
-bool handle(SDL_Event &e)
+static bool hsw = true;
+
+bool handle(ovrHmd hmd, SDL_Event &e)
 {
 	using namespace control;
 
@@ -34,6 +36,8 @@ bool handle(SDL_Event &e)
 	case SDL_KEYDOWN:
 		pressing = true;
 		key = e.key.keysym.sym;
+		if(hsw && ovrHmd_DismissHSWDisplay(hmd))
+			hsw = false;
 		break;
 	case SDL_KEYUP:
 		pressing = false;
