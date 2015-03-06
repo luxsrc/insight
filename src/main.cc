@@ -22,8 +22,8 @@
 #include <cstdlib>
 
 namespace control {
-	bool fixed   = true;
-	bool mounted = true;
+	bool objects = true;
+	bool glasses = true;
 }
 
 int main(int argc, char *argv[])
@@ -45,8 +45,8 @@ int main(int argc, char *argv[])
 			done = handle(hmd, event);
 		else
 			display(hmd,
-			        control::fixed   ? vol : 0,
-			        control::mounted ? img : 0);
+			        control::glasses ? img : 0,
+			        control::objects ? vol : 0);
 
 		if(control::pressing)
 			repeat(control::key);

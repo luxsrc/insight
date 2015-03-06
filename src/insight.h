@@ -33,8 +33,8 @@ namespace global {
 }
 
 namespace control {
-	extern bool  fixed;
-	extern bool  mounted;
+	extern bool  objects;
+	extern bool  glasses;
 	extern bool  sitting;
 	extern bool  pressing;
 	extern int   key;

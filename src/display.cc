@@ -43,7 +43,7 @@ static inline void quat_to_matrix(const float *q, float *M)
 	M[15] = 1.0f;
 }
 
-void display(ovrHmd hmd, unsigned vol, unsigned img)
+void display(ovrHmd hmd, unsigned img, unsigned vol)
 {
 	ovrVector3f offset[2] = {global::rdesc[0].HmdToEyeViewOffset,
 	                         global::rdesc[1].HmdToEyeViewOffset};

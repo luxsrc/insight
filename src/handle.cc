@@ -28,30 +28,28 @@ static bool hsw = true;
 
 bool handle(ovrHmd hmd, SDL_Event &e)
 {
-	using namespace control;
-
 	switch(e.type) {
 	case SDL_QUIT:
 		return 1;
 	case SDL_KEYDOWN:
-		pressing = true;
-		key = e.key.keysym.sym;
+		control::pressing = true;
+		control::key = e.key.keysym.sym;
 		if(hsw && ovrHmd_DismissHSWDisplay(hmd))
 			hsw = false;
 		break;
 	case SDL_KEYUP:
-		pressing = false;
-		switch(key) {
+		control::pressing = false;
+		switch(control::key) {
 		case 27:
 			return 1;
 		case 'a':
-			fixed = !fixed;
+			control::glasses = !control::glasses;
 			break;
 		case 'b':
-			mounted = !mounted;
+			control::objects = !control::objects;
 			break;
 		case 's':
-			sitting = !sitting;
+			control::sitting = !control::sitting;
 			break;
 		}
 	}
