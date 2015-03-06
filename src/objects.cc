@@ -23,49 +23,22 @@ namespace control {
 	float phi   = 0;
 }
 
-void objects(unsigned vol)
+static void image(unsigned img)
 {
-	float pos[][4] = {{-8.0f, 2.0f,10.0f, 1.0f}, {0.0f,15.0f, 0.0f, 1.0f}};
-	float col[][4] = {{ 0.8f, 0.8f, 0.8f, 1.0f}, {0.4f, 0.3f, 0.3f, 1.0f}};
-	for(int i = 0; i < 2; ++i) {
-		glLightfv(GL_LIGHT0+i, GL_POSITION, pos[i]);
-		glLightfv(GL_LIGHT0+i, GL_DIFFUSE,  col[i]);
-	}
-
-	if(control::sitting)
-		glTranslatef(0.0f, 1.675f, -1.0f);
-	else
-		glTranslatef(0.0f, 2.0f, 0.0f);
-	glScalef(0.5f, 0.5f, 0.5f);
-
-	glBegin(GL_LINE_STRIP);
-		glVertex3f( 1, 1, 1);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(-1,-1, 1);
-		glVertex3f(-1,-1,-1);
+	glBindTexture(GL_TEXTURE_2D, img);
+	glEnable(GL_TEXTURE_2D);
+	glBegin(GL_QUADS);
+	glNormal3f( 0, 0, 1);
+		glTexCoord2f(1, 0); glVertex3f( 1, 1, 1);
+		glTexCoord2f(0, 0); glVertex3f(-1, 1, 1);
+		glTexCoord2f(0, 1); glVertex3f(-1,-1, 1);
+		glTexCoord2f(1, 1); glVertex3f( 1,-1, 1);
 	glEnd();
-	glBegin(GL_LINE_STRIP);
-		glVertex3f(-1, 1, 1);
-		glVertex3f(-1, 1,-1);
-		glVertex3f(-1,-1,-1);
-		glVertex3f( 1,-1,-1);
-	glEnd();
-	glBegin(GL_LINE_STRIP);
-		glVertex3f(-1, 1,-1);
-		glVertex3f( 1, 1,-1);
-		glVertex3f( 1,-1,-1);
-		glVertex3f( 1,-1, 1);
-	glEnd();
-	glBegin(GL_LINE_STRIP);
-		glVertex3f( 1, 1,-1);
-		glVertex3f( 1, 1, 1);
-		glVertex3f( 1,-1, 1);
-		glVertex3f(-1,-1, 1);
-	glEnd();
+	glDisable(GL_TEXTURE_2D);
+}
 
-	if(!vol)
-		return;
-
+static void volume(unsigned vol)
+{
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 1.0f/128);
 	glEnable(GL_BLEND);
@@ -97,4 +70,54 @@ void objects(unsigned vol)
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_3D);
+}
+
+void objects(unsigned img, unsigned vol)
+{
+	float pos[][4] = {{-8.0f, 2.0f,10.0f, 1.0f}, {0.0f,15.0f, 0.0f, 1.0f}};
+	float col[][4] = {{ 0.8f, 0.8f, 0.8f, 1.0f}, {0.4f, 0.3f, 0.3f, 1.0f}};
+	for(int i = 0; i < 2; ++i) {
+		glLightfv(GL_LIGHT0+i, GL_POSITION, pos[i]);
+		glLightfv(GL_LIGHT0+i, GL_DIFFUSE,  col[i]);
+	}
+
+	if(control::sitting)
+		glTranslatef(0.0f, 1.675f, -1.5f);
+	else
+		glTranslatef(0.0f, 2.0f, 0.0f);
+	glScalef(0.5f, 0.5f, 0.5f);
+
+	float grey[] = {0.5f, 0.5f, 0.5f, 1.0f};
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
+
+	glBegin(GL_LINE_STRIP);
+		glVertex3f( 1, 1, 1);
+		glVertex3f(-1, 1, 1);
+		glVertex3f(-1,-1, 1);
+		glVertex3f(-1,-1,-1);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+		glVertex3f(-1, 1, 1);
+		glVertex3f(-1, 1,-1);
+		glVertex3f(-1,-1,-1);
+		glVertex3f( 1,-1,-1);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+		glVertex3f(-1, 1,-1);
+		glVertex3f( 1, 1,-1);
+		glVertex3f( 1,-1,-1);
+		glVertex3f( 1,-1, 1);
+	glEnd();
+	glBegin(GL_LINE_STRIP);
+		glVertex3f( 1, 1,-1);
+		glVertex3f( 1, 1, 1);
+		glVertex3f( 1,-1, 1);
+		glVertex3f(-1,-1, 1);
+	glEnd();
+
+	if(img)
+		image(img);
+
+	if(vol)
+		volume(vol);
 }

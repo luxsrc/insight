@@ -70,12 +70,7 @@ void display(ovrHmd hmd, unsigned img, unsigned vol)
 		float z = global::rdesc[eye].HmdToEyeViewOffset.z;
 		glTranslatef(x, y, z);
 
-		// Head-mounted models
-		if(img) {
-			glPushMatrix();
-			glasses(img);
-			glPopMatrix();
-		}
+		glasses(img, vol); // head-mounted models
 
 		ovrMatrix4f Rij;
 		quat_to_matrix(&pose[eye].Orientation.x, Rij.M[0]);
@@ -86,8 +81,7 @@ void display(ovrHmd hmd, unsigned img, unsigned vol)
 		z += pose[eye].Position.z;
 		glTranslatef(-x, -y, -z);
 
-		// Spatially fixed objects
-		objects(vol);
+		objects(img, vol); // spatially fixed objects
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
