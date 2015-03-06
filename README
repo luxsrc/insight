@@ -1,0 +1,4 @@
+Insight is a minimal interactive virtual reality data visualizer.  It
+is based on John Tsiombikas' Oculus Rift hack.  The current version is
+designed to visualize a single snapshot of black hole accretion flow
+simulations, but is extendable for other applications.
