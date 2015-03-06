@@ -83,11 +83,13 @@ void objects(unsigned img, unsigned vol)
 		glLightfv(GL_LIGHT0+i, GL_DIFFUSE,  col[i]);
 	}
 
-	if(control::sitting)
-		glTranslatef(0.0f, 1.675f, -1.5f);
-	else
-		glTranslatef(0.0f, 2.0f, 0.0f);
-	glScalef(0.5f, 0.5f, 0.5f);
+	if(control::sitting) {
+		glTranslatef(0.0f, 1.0f, -3.0f);
+		glScalef(3.0f, 3.0f, 3.0f);
+	} else {
+		glTranslatef(0.0f, 2.0f, -0.5f);
+		glScalef(0.5f, 0.5f, 0.5f);
+	}
 
 	float grey[] = {0.5f, 0.5f, 0.5f, 1.0f};
 	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, grey);
